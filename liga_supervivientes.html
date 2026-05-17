@@ -942,8 +942,11 @@
                 const local = localStorage.getItem(DB_KEY);
                 if (local) {
                     survivors = JSON.parse(local);
+                    survivors.forEach(s => {
+                        if (s.rouletteCycle === undefined) s.rouletteCycle = 0;
+                    });
                 } else {
-                    survivors = INITIAL_SURVIVORS.map(s => ({ ...s, performance: 0 }));
+                    survivors = INITIAL_SURVIVORS.map(s => ({ ...s, performance: 0, rouletteCycle: 0 }));
                 }
                 survivors.forEach(s => {
                     if (s.played > 0) s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
@@ -1002,6 +1005,10 @@
                         if (res === 'win') s.points += 1;
                         s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
 
+                        s.rouletteCycle += 1;
+                        const maxCycle = Math.max(...survivors.map(x => x.rouletteCycle));
+                        if (maxCycle === 1) survivors.forEach(x => x.rouletteCycle = 0);
+
                         if (victimId) {
                             const victim = survivors.find(x => x.id === victimId);
                             const tempRank = s.rank;
@@ -1041,6 +1048,10 @@
                         if (res === 'win') s.points += 1;
                         s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
 
+                        s.rouletteCycle += 1;
+                        const maxCycle = Math.max(...survivors.map(x => x.rouletteCycle));
+                        if (maxCycle === 1) survivors.forEach(x => x.rouletteCycle = 0);
+
                         if (victimId) {
                             const victim = survivors.find(x => x.id === victimId);
                             const tempRank = s.rank;
@@ -1077,6 +1088,10 @@
                     s.played++; s.generators += g;
                     if (res === 'win') s.points += 1;
                     s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
+
+                    s.rouletteCycle += 1;
+                    const maxCycle = Math.max(...survivors.map(x => x.rouletteCycle));
+                    if (maxCycle === 1) survivors.forEach(x => x.rouletteCycle = 0);
 
                     RANKS.forEach(r => {
                         let col = survivors.filter(x => x.rank === r).sort((a, b) => (b.performance - a.performance) || (b.generators - a.generators) || (a.priority - b.priority));
@@ -1160,8 +1175,8 @@
 
         function startRoulette() {
             const btn = document.getElementById('btn-roulette'); btn.disabled = true;
-            const minP = Math.min(...survivors.map(s => s.played));
-            const candidates = survivors.filter(s => s.played === minP);
+            const minCycle = Math.min(...survivors.map(s => s.rouletteCycle));
+            const candidates = survivors.filter(s => s.rouletteCycle === minCycle);
             const winner = candidates[Math.floor(Math.random() * candidates.length)];
             const candidateIds = candidates.map(c => c.id);
             document.querySelectorAll('.survivor-card').forEach(card => {
