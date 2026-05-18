@@ -656,11 +656,22 @@
         }
 
         .win-count {
-            position: relative;
-            color: var(--oro);
-            font-size: 9px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #1a1a2e;
+            font-size: 11px;
             font-weight: 900;
             z-index: 6;
+        }
+
+        .star-svg {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            fill: var(--oro);
+            pointer-events: none;
         }
 
         .btn-modal-action {
