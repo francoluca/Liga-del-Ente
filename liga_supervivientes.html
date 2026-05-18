@@ -634,31 +634,33 @@
 
         .champion-star-container {
             position: absolute;
-            top: -8px;
-            right: -8px;
-            width: 38px;
-            height: 38px;
+            top: 4px;
+            right: 4px;
+            width: 26px;
+            height: 26px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 5;
-            filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.9));
+            z-index: 10;
+            background: rgba(0,0,0,0.7);
+            border-radius: 50%;
+            border: 2px solid var(--oro);
+            filter: drop-shadow(0 0 4px rgba(255, 204, 0, 0.8));
         }
 
         .star-svg {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 70%;
+            height: 70%;
             fill: var(--oro);
         }
 
         .win-count {
             position: relative;
-            color: #1a1a2e;
-            font-size: 0.9rem;
+            color: var(--oro);
+            font-size: 9px;
             font-weight: 900;
             z-index: 6;
-            margin-top: 2px;
         }
 
         .btn-modal-action {
@@ -814,6 +816,15 @@
                 onclick="toggleConfig()">⚙️</button>
         </div>
         <div id="config-panel">
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:15px;">
+                <span style="color:var(--oro); font-weight:bold; font-size:0.9rem; text-transform:uppercase;">🏆 Campeón</span>
+                <select id="champion-select" onchange="updateChampionWinsDisplay()" style="padding:8px; border-radius:6px; background:#1a1a2e; color:white; border:1px solid rgba(255,255,255,0.2);">
+                </select>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="number" id="champion-wins" min="0" value="0" style="width:60px; padding:8px; border-radius:6px; background:#1a1a2e; color:white; border:1px solid rgba(255,255,255,0.2); text-align:center;">
+                    <button class="config-btn" onclick="saveChampionWins()" style="flex:1; padding:8px; font-size:0.8rem;">Guardar</button>
+                </div>
+            </div>
             <button class="config-btn" onclick="exportar()">📤 Exportar JSON</button>
             <button class="config-btn" onclick="importar()">📥 Importar JSON</button>
             <textarea id="json-io"
@@ -1183,14 +1194,6 @@ if (res === 'win') s.points += 1;
             if (candidates.length === 0) {
                 currentRound++;
                 localStorage.setItem('liga_currentRound', currentRound.toString());
-
-                const iridiscente = survivors.filter(s => s.rank === 'Iridiscente');
-                const sorted = sortSurvivors(iridiscente);
-                if (sorted.length > 0) {
-                    sorted[0].wins = (sorted[0].wins || 0) + 1;
-                    localStorage.setItem(DB_KEY, JSON.stringify(survivors));
-                }
-
                 candidates = survivors.filter(s => s.lastRound !== currentRound);
             }
             const winner = candidates[Math.floor(Math.random() * candidates.length)];
@@ -1299,7 +1302,42 @@ if (res === 'win') s.points += 1;
         function importar() { const io = document.getElementById('json-io'); io.style.display = 'block'; io.value = ""; document.getElementById('btn-load').style.display = 'block'; }
         function confirmarImport() { try { survivors = JSON.parse(document.getElementById('json-io').value); render(); document.getElementById('config-panel').style.display = 'none'; } catch (e) { } }
 
-        window.onload = init;
+        function updateChampionWinsDisplay() {
+            const select = document.getElementById('champion-select');
+            const winsInput = document.getElementById('champion-wins');
+            if (select.value) {
+                const s = survivors.find(x => x.id === parseInt(select.value));
+                if (s) winsInput.value = s.wins || 0;
+            }
+        }
+
+        function saveChampionWins() {
+            const select = document.getElementById('champion-select');
+            const winsInput = document.getElementById('champion-wins');
+            if (select.value) {
+                const s = survivors.find(x => x.id === parseInt(select.value));
+                if (s) {
+                    s.wins = parseInt(winsInput.value) || 0;
+                    localStorage.setItem(DB_KEY, JSON.stringify(survivors));
+                    initChampionSelect();
+                    render();
+                }
+            }
+        }
+
+        function initChampionSelect() {
+            const select = document.getElementById('champion-select');
+            select.innerHTML = '<option value="">Seleccionar superviviente</option>';
+            const sorted = [...survivors].sort((a, b) => a.name.localeCompare(b.name));
+            sorted.forEach(s => {
+                const option = document.createElement('option');
+                option.value = s.id;
+                option.textContent = s.name + (s.wins > 0 ? ` (${s.wins}🏆)` : '');
+                select.appendChild(option);
+            });
+        }
+
+        window.onload = function() { init(); initChampionSelect(); };
     </script>
 </body>
 
