@@ -636,18 +636,18 @@
             position: absolute;
             top: -8px;
             right: -8px;
-            width: 48px;
-            height: 48px;
+            width: 40px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 2px;
             z-index: 15;
         }
 
-        .trophy-svg {
+        .trophy-img {
             width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
+            filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.6));
         }
 
         .star-svg {
@@ -658,16 +658,13 @@
         }
 
 .win-count {
-            position: absolute;
-            top: 38%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #1a1a2e;
+            position: relative;
+            color: var(--oro);
             font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
+            font-size: 11px;
             font-weight: 900;
             z-index: 16;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
             user-select: none;
         }
 
@@ -1173,19 +1170,7 @@ if (res === 'win') s.points += 1;
 
                     const starHTML = s.wins > 0 ? `
                         <div class="champion-star-container">
-                            <svg class="trophy-svg" viewBox="0 0 64 64">
-                                <defs>
-                                    <linearGradient id="trophyGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#ffd700"/>
-                                        <stop offset="50%" style="stop-color:#ffaa00"/>
-                                        <stop offset="100%" style="stop-color:#cc8800"/>
-                                    </linearGradient>
-                                </defs>
-                                <path d="M32 8 L32 16 M16 12 L48 12 C52 12 56 18 56 24 L56 36 C56 48 46 56 32 60 C18 56 8 48 8 36 L8 24 C8 18 12 12 16 12 Z" 
-                                      fill="url(#trophyGold)" stroke="#fff8dc" stroke-width="2"/>
-                                <path d="M18 60 L18 64 M46 60 L46 64 M32 60 L32 64" 
-                                      stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
-                            </svg>
+                            <img src="img/copa.png" class="trophy-img">
                             <span class="win-count">${s.wins}</span>
                         </div>` : '';
 
