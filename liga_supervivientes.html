@@ -634,18 +634,21 @@
 
         .champion-star-container {
             position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 26px;
-            height: 26px;
+            top: -6px;
+            right: -6px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10;
-            background: rgba(0,0,0,0.7);
+            z-index: 15;
+            background: linear-gradient(135deg, #ffd700 0%, #ffaa00 50%, #ff8800 100%);
             border-radius: 50%;
-            border: 2px solid var(--oro);
-            filter: drop-shadow(0 0 4px rgba(255, 204, 0, 0.8));
+            border: 3px solid #fff8dc;
+            box-shadow: 
+                0 0 10px rgba(255, 215, 0, 0.8),
+                0 0 20px rgba(255, 170, 0, 0.5),
+                0 0 30px rgba(255, 136, 0, 0.3);
         }
 
         .star-svg {
@@ -655,21 +658,21 @@
             fill: var(--oro);
         }
 
-        .win-count {
+.win-count {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             color: #1a1a2e;
-            font-size: 11px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
             font-weight: 900;
-            z-index: 6;
+            z-index: 16;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+            user-select: none;
         }
 
         .star-svg {
-            position: absolute;
-            width: 70%;
-            height: 70%;
             fill: var(--oro);
             pointer-events: none;
         }
@@ -1171,9 +1174,6 @@ if (res === 'win') s.points += 1;
 
                     const starHTML = s.wins > 0 ? `
                         <div class="champion-star-container">
-                            <svg class="star-svg" viewBox="0 0 24 24">
-                                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                            </svg>
                             <span class="win-count">${s.wins}</span>
                         </div>` : '';
 
