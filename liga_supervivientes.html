@@ -943,13 +943,14 @@
                 const local = localStorage.getItem(DB_KEY);
                 if (local) {
                     survivors = JSON.parse(local);
-                    if (survivors[0].lastRound === undefined) {
-                        survivors.forEach(s => s.lastRound = 0);
-                    }
+                    survivors.forEach(s => {
+                        if (s.lastRound === undefined) s.lastRound = 0;
+                        if (s.wins === undefined) s.wins = 0;
+                    });
                     const storedRound = localStorage.getItem('liga_currentRound');
                     if (storedRound) currentRound = parseInt(storedRound);
                 } else {
-                    survivors = INITIAL_SURVIVORS.map(s => ({ ...s, performance: 0, lastRound: 0 }));
+                    survivors = INITIAL_SURVIVORS.map(s => ({ ...s, performance: 0, lastRound: 0, wins: 0 }));
                 }
                 survivors.forEach(s => {
                     if (s.played > 0) s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
@@ -1182,6 +1183,14 @@ if (res === 'win') s.points += 1;
             if (candidates.length === 0) {
                 currentRound++;
                 localStorage.setItem('liga_currentRound', currentRound.toString());
+
+                const iridiscente = survivors.filter(s => s.rank === 'Iridiscente');
+                const sorted = sortSurvivors(iridiscente);
+                if (sorted.length > 0) {
+                    sorted[0].wins = (sorted[0].wins || 0) + 1;
+                    localStorage.setItem(DB_KEY, JSON.stringify(survivors));
+                }
+
                 candidates = survivors.filter(s => s.lastRound !== currentRound);
             }
             const winner = candidates[Math.floor(Math.random() * candidates.length)];
