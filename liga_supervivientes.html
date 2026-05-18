@@ -934,6 +934,7 @@
         ];
 
         let survivors = [];
+        let currentRound = 0;
         let highlightedIds = [];
         let selectedSurvivorId = null;
 
@@ -942,11 +943,13 @@
                 const local = localStorage.getItem(DB_KEY);
                 if (local) {
                     survivors = JSON.parse(local);
-                    survivors.forEach(s => {
-                        if (s.rouletteCycle === undefined) s.rouletteCycle = 0;
-                    });
+                    if (survivors[0].lastRound === undefined) {
+                        survivors.forEach(s => s.lastRound = 0);
+                    }
+                    const storedRound = localStorage.getItem('liga_currentRound');
+                    if (storedRound) currentRound = parseInt(storedRound);
                 } else {
-                    survivors = INITIAL_SURVIVORS.map(s => ({ ...s, performance: 0, rouletteCycle: 0 }));
+                    survivors = INITIAL_SURVIVORS.map(s => ({ ...s, performance: 0, lastRound: 0 }));
                 }
                 survivors.forEach(s => {
                     if (s.played > 0) s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
@@ -999,31 +1002,30 @@
                     cardS.classList.add('cruzar-arriba');
                     victimCard.classList.add('cruzar-abajo');
 
+                    s.played++; s.generators += g;
+                    if (res === 'win') s.points += 1;
+                    s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
+
+                    s.lastRound = currentRound;
+                    localStorage.setItem(DB_KEY, JSON.stringify(survivors));
+
+                    if (victimId) {
+                        const victim = survivors.find(x => x.id === victimId);
+                        const tempRank = s.rank;
+                        s.rank = victim.rank;
+                        victim.rank = tempRank;
+
+                        s.priority = 9999;
+                        victim.priority = 0.001;
+                    }
+
+                    RANKS.forEach(r => {
+                        let col = survivors.filter(x => x.rank === r).sort((a, b) => (b.performance - a.performance) || (b.generators - a.generators) || (a.priority - b.priority));
+                        col.forEach((survivor, idx) => survivor.priority = idx + 1);
+                    });
+
                     closeModals();
                     setTimeout(() => {
-                        s.played++; s.generators += g;
-                        if (res === 'win') s.points += 1;
-                        s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
-
-                        s.rouletteCycle += 1;
-                        const maxCycle = Math.max(...survivors.map(x => x.rouletteCycle));
-                        if (maxCycle === 1) survivors.forEach(x => x.rouletteCycle = 0);
-
-                        if (victimId) {
-                            const victim = survivors.find(x => x.id === victimId);
-                            const tempRank = s.rank;
-                            s.rank = victim.rank;
-                            victim.rank = tempRank;
-
-                            s.priority = 9999;
-                            victim.priority = 0.001;
-                        }
-
-                        RANKS.forEach(r => {
-                            let col = survivors.filter(x => x.rank === r).sort((a, b) => (b.performance - a.performance) || (b.generators - a.generators) || (a.priority - b.priority));
-                            col.forEach((survivor, idx) => survivor.priority = idx + 1);
-                        });
-
                         highlightedIds = implicadosIds;
                         render();
                         setTimeout(() => { highlightedIds = []; render(); }, 4000);
@@ -1042,31 +1044,32 @@
                     cardS.classList.add('cruzar-abajo');
                     victimCard.classList.add('cruzar-arriba');
 
+                    s.played++; s.generators += g;
+                    if (res === 'win') s.points += 1;
+                    s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
+
+                    s.lastRound = currentRound;
+                    localStorage.setItem(DB_KEY, JSON.stringify(survivors));
+
+                    if (victimId) {
+                        const victim = survivors.find(x => x.id === victimId);
+                        const tempRank = s.rank;
+                        s.rank = victim.rank;
+                        victim.rank = tempRank;
+
+                        s.priority = 0.001;
+                        victim.priority = 9999;
+                    }
+
+                    RANKS.forEach(r => {
+                        let col = survivors.filter(x => x.rank === r).sort((a, b) => (b.performance - a.performance) || (b.generators - a.generators) || (a.priority - b.priority));
+                        col.forEach((survivor, idx) => survivor.priority = idx + 1);
+                    });
+
+                    localStorage.setItem(DB_KEY, JSON.stringify(survivors));
+
                     closeModals();
                     setTimeout(() => {
-                        s.played++; s.generators += g;
-                        if (res === 'win') s.points += 1;
-                        s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
-
-                        s.rouletteCycle += 1;
-                        const maxCycle = Math.max(...survivors.map(x => x.rouletteCycle));
-                        if (maxCycle === 1) survivors.forEach(x => x.rouletteCycle = 0);
-
-                        if (victimId) {
-                            const victim = survivors.find(x => x.id === victimId);
-                            const tempRank = s.rank;
-                            s.rank = victim.rank;
-                            victim.rank = tempRank;
-
-                            s.priority = 0.001;
-                            victim.priority = 9999;
-                        }
-
-                        RANKS.forEach(r => {
-                            let col = survivors.filter(x => x.rank === r).sort((a, b) => (b.performance - a.performance) || (b.generators - a.generators) || (a.priority - b.priority));
-                            col.forEach((survivor, idx) => survivor.priority = idx + 1);
-                        });
-
                         highlightedIds = implicadosIds;
                         render();
                         setTimeout(() => { highlightedIds = []; render(); }, 4000);
@@ -1083,27 +1086,28 @@
                 else if (newInternalIndex > oldInternalIndex) cardS.classList.add('bajar-interno-anim');
                 else cardS.classList.add('mismo-lugar-anim');
 
-                closeModals();
-                setTimeout(() => {
-                    s.played++; s.generators += g;
-                    if (res === 'win') s.points += 1;
-                    s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
+                s.played++; s.generators += g;
+if (res === 'win') s.points += 1;
+                s.performance = parseFloat(((s.points / s.played) * 100).toFixed(1));
 
-                    s.rouletteCycle += 1;
-                    const maxCycle = Math.max(...survivors.map(x => x.rouletteCycle));
-                    if (maxCycle === 1) survivors.forEach(x => x.rouletteCycle = 0);
+                s.lastRound = currentRound;
+                localStorage.setItem(DB_KEY, JSON.stringify(survivors));
 
-                    RANKS.forEach(r => {
+                RANKS.forEach(r => {
                         let col = survivors.filter(x => x.rank === r).sort((a, b) => (b.performance - a.performance) || (b.generators - a.generators) || (a.priority - b.priority));
                         col.forEach((survivor, idx) => survivor.priority = idx + 1);
                     });
 
-                    highlightedIds = [s.id];
-                    render();
-                    setTimeout(() => { highlightedIds = []; render(); }, 3000);
-                }, 2500);
-                return;
-            }
+                    localStorage.setItem(DB_KEY, JSON.stringify(survivors));
+
+                    closeModals();
+                    setTimeout(() => {
+                        highlightedIds = implicadosIds;
+                        render();
+                        setTimeout(() => { highlightedIds = []; render(); }, 4000);
+                    }, 2800);
+                    return;
+                }
 
             closeModals();
             setTimeout(() => {
@@ -1151,7 +1155,7 @@
                         </div>` : '';
 
                     return `
-                    <div id="survivor-${s.id}" class="survivor-card ${isHi ? 'resaltar-latido' : ''}" onclick="openSurvivorAction(${s.id})" style="${isHi ? 'color:' + rColor + '; border-color:' + rColor + ';' : ''}">
+                    <div id="survivor-${s.id}" class="survivor-card ${isHi ? 'resaltar-latido' : ''}" onclick="openSurvivorAction(${s.id})" style="position:relative; ${isHi ? 'color:' + rColor + '; border-color:' + rColor + ';' : ''}">
                         ${starHTML}
                         <img src="${s.img}" class="survivor-img">
                         <div class="survivor-info">
@@ -1170,13 +1174,16 @@
             </div>`;
                 canvas.appendChild(col);
             });
-            localStorage.setItem(DB_KEY, JSON.stringify(survivors));
         }
 
         function startRoulette() {
             const btn = document.getElementById('btn-roulette'); btn.disabled = true;
-            const minCycle = Math.min(...survivors.map(s => s.rouletteCycle));
-            const candidates = survivors.filter(s => s.rouletteCycle === minCycle);
+            let candidates = survivors.filter(s => s.lastRound !== currentRound);
+            if (candidates.length === 0) {
+                currentRound++;
+                localStorage.setItem('liga_currentRound', currentRound.toString());
+                candidates = survivors.filter(s => s.lastRound !== currentRound);
+            }
             const winner = candidates[Math.floor(Math.random() * candidates.length)];
             const candidateIds = candidates.map(c => c.id);
             document.querySelectorAll('.survivor-card').forEach(card => {
