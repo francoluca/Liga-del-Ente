@@ -1246,43 +1246,26 @@ if (res === 'win') s.points += 1;
         function generateModalPerks(s) {
             const container = document.getElementById('modal-perks-container');
             container.innerHTML = "";
-            const ownP = (s.expert_perks && s.expert_perks.length > 0) ? s.expert_perks : [];
-            const gPool = getAllSurvivorPerks();
-            let list = []; let mText = "";
-            let totalSlots = 4;
-            
-            if (s.rank === 'Iridiscente') {
-                mText = "Build Meta";
-                list = s.meta_build;
+            const allExpertPerks = getAllSurvivorPerks();
+            let pool = [...new Set([...GENERIC_POOL, ...allExpertPerks])];
+            let result = [];
+            for (let i = 0; i < 4; i++) {
+                const options = [...pool, null];
+                const pick = options[Math.floor(Math.random() * options.length)];
+                result.push(pick);
+                if (pick !== null) {
+                    pool = pool.filter(p => p !== pick);
+                }
             }
-            else if (s.rank === 'Oro') {
-                mText = "Mezcla Caotica";
-                let tP = [...GENERIC_POOL, ...gPool];
-                for (let i = 0; i < 4; i++) list.push(tP.splice(Math.floor(Math.random() * tP.length), 1)[0]);
-            }
-            else if (s.rank === 'Plata') {
-                mText = "Experto Plus";
-                let oP = [...GENERIC_POOL, ...gPool].filter(p => !ownP.includes(p));
-                list = [...ownP.slice(0, 3), oP[Math.floor(Math.random() * oP.length)]];
-            }
-            else if (s.rank === 'Bronce') {
-                mText = "Experto";
-                list = ownP.slice(0, 3);
-                totalSlots = 3;
-            }
-            else {
-                mText = "Sin Perks";
-                list = [];
-                totalSlots = 0;
-            }
-            
-            document.getElementById('modal-mission-title').innerText = mText;
-            for (let i = 0; i < totalSlots; i++) {
-                const pN = list[i];
-                const needsAnim = pN && (s.rank === 'Oro' || (s.rank === 'Plata' && i === 3));
-                container.innerHTML += `<div style="display:flex; flex-direction:column; align-items:center; width:140px;"><div class="perk-slot" id="slot-unit-${i}"><img src="img/perks/agil.png" class="perk-img-mod"></div><div id="label-perk-${i}" class="perk-label-name" style="opacity: ${needsAnim ? 0 : 1};">${pN ? pN.replace(/_/g, " ") : ""}</div></div>`;
-                if (needsAnim) animateSlot(`slot-unit-${i}`, `label-perk-${i}`, pN, i * 400);
-                else if (pN) document.querySelector(`#slot-unit-${i} .perk-img-mod`).src = `img/perks/${cleanForFilename(pN)}.png`;
+
+            document.getElementById('modal-mission-title').innerText = "Build Aleatoria";
+            for (let i = 0; i < 4; i++) {
+                const pN = result[i];
+                container.innerHTML += `<div style="display:flex; flex-direction:column; align-items:center; width:140px;">
+                    <div class="perk-slot" id="slot-unit-${i}"><img src="img/perks/agil.png" class="perk-img-mod"></div>
+                    <div id="label-perk-${i}" class="perk-label-name" style="opacity:0;">${pN ? pN.replace(/_/g, " ") : ""}</div>
+                </div>`;
+                animateSlot(`slot-unit-${i}`, `label-perk-${i}`, result[i], i * 1000);
             }
         }
 
@@ -1298,8 +1281,14 @@ if (res === 'win') s.points += 1;
                     const temp = pool[Math.floor(Math.random() * pool.length)];
                     img.src = `img/perks/${cleanForFilename(temp)}.png`;
                     if (Date.now() - start > 1500 + d) {
-                        clearInterval(interval); img.classList.remove('spinning-img');
-                        img.src = `img/perks/${cleanForFilename(fP)}.png`; label.style.opacity = 1;
+                        clearInterval(interval);
+                        img.classList.remove('spinning-img');
+                        if (fP) {
+                            img.src = `img/perks/${cleanForFilename(fP)}.png`;
+                        } else {
+                            sU.innerHTML = `<div style="transform:rotate(-45deg); color:rgba(255,255,255,0.15); font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:700;">?</div>`;
+                        }
+                        label.style.opacity = 1;
                     }
                 }, 100);
             }, 10);
