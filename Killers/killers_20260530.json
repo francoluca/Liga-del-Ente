@@ -1,0 +1,1010 @@
+[
+    {
+        "id": 1,
+        "priority": 3,
+        "name": "El Payaso",
+        "wins": 0,
+        "rank": "Iridiscente",
+        "points": 6,
+        "hooks": 24,
+        "played": 2,
+        "average": 0,
+        "img": "img/clown.webp",
+        "meta_build": [
+            "amigos_hasta_el_fin",
+            "brutalidad_veloz",
+            "persecucion_furtiva",
+            "aprendizaje_automatizado"
+        ],
+        "expert_perks": [
+            "coulrofobia",
+            "desconcierto",
+            "pim_pam_pum"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 2,
+        "priority": 9,
+        "name": "El Deterioro",
+        "wins": 0,
+        "rank": "Bronce",
+        "points": 3,
+        "hooks": 17,
+        "played": 2,
+        "average": 0,
+        "img": "img/blight.webp",
+        "meta_build": [
+            "enfurecimiento",
+            "ruina",
+            "obertura_de_la_perdicion",
+            "dolor_resonante"
+        ],
+        "expert_perks": [
+            "garra_de_dragon",
+            "favor_de_sangre",
+            "inmortal"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 3,
+        "priority": 8,
+        "name": "La Enfermera",
+        "wins": 1,
+        "rank": "Plata",
+        "points": 3,
+        "hooks": 19,
+        "played": 2,
+        "average": 0,
+        "img": "img/nurse.webp",
+        "meta_build": [
+            "obsequio_de_dolor",
+            "agitacion",
+            "tanatofobia",
+            "dolor_resonante"
+        ],
+        "expert_perks": [
+            "aliento",
+            "tanatofobia",
+            "vocacion_de_enfermera"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 4,
+        "priority": 1,
+        "name": "Hillbilly",
+        "wins": 0,
+        "rank": "Iridiscente",
+        "points": 6,
+        "hooks": 24,
+        "played": 2,
+        "average": 0,
+        "img": "img/billy.webp",
+        "meta_build": [
+            "terror_contagioso",
+            "duda_forzada",
+            "dolor_resonante",
+            "ruina"
+        ],
+        "expert_perks": [
+            "hijo_de_la_luz",
+            "reparador",
+            "resistente"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 5,
+        "priority": 2,
+        "name": "Los Mellizos",
+        "wins": 0,
+        "rank": "Oro",
+        "points": 6,
+        "hooks": 24,
+        "played": 2,
+        "average": 0,
+        "img": "img/twins.webp",
+        "meta_build": [
+            "acechador_de_ciervos",
+            "ruina",
+            "inmortal",
+            "mente_colmena"
+        ],
+        "expert_perks": [
+            "acumulador",
+            "golpe_de_gracia",
+            "opresion"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 6,
+        "priority": 1,
+        "name": "Drácula",
+        "wins": 0,
+        "rank": "Oro",
+        "points": 6,
+        "hooks": 24,
+        "played": 2,
+        "average": 0,
+        "img": "img/dracula.webp",
+        "meta_build": [
+            "unidos_por_siempre",
+            "erupcion",
+            "opresion",
+            "agitacion"
+        ],
+        "expert_perks": [
+            "codicia_humana",
+            "dominacion",
+            "destino_miserable"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 7,
+        "priority": 1,
+        "name": "Kaneki",
+        "wins": 0,
+        "rank": "Plata",
+        "points": 6,
+        "hooks": 21,
+        "played": 2,
+        "average": 0,
+        "img": "img/kaneki.webp",
+        "meta_build": [
+            "amigos_hasta_el_fin",
+            "persecucion_furtiva",
+            "abrazo_de_la_muerte",
+            "dolor_resonante"
+        ],
+        "expert_perks": [
+            "pura_miseria",
+            "nadie_es_libre",
+            "unidos_por_siempre"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 8,
+        "priority": 7,
+        "name": "La Espíritu",
+        "wins": 0,
+        "rank": "Plata",
+        "points": 3,
+        "hooks": 20,
+        "played": 2,
+        "average": 0,
+        "img": "img/spirit.webp",
+        "meta_build": [
+            "amigos_hasta_el_fin",
+            "carnicero_chapucero",
+            "dolor_resonante",
+            "ruina"
+        ],
+        "expert_perks": [
+            "furia_espiritual",
+            "tierra_embrujada",
+            "rencor"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 9,
+        "priority": 4,
+        "name": "La Singularidad",
+        "wins": 0,
+        "rank": "Plata",
+        "points": 4,
+        "hooks": 20,
+        "played": 2,
+        "average": 0,
+        "img": "img/singularity.webp",
+        "meta_build": [
+            "opresion",
+            "pim_pam_pum",
+            "erupcion",
+            "anuncio_de_salmuera"
+        ],
+        "expert_perks": [
+            "aprendizaje_automatizado",
+            "duda_forzada",
+            "limites_geneticos"
+        ],
+        "performance": 66.7
+    },
+    {
+        "id": 10,
+        "priority": 1,
+        "name": "Vecna",
+        "wins": 0,
+        "rank": "Ceniza",
+        "points": 3,
+        "hooks": 16,
+        "played": 2,
+        "average": 0,
+        "img": "img/vecna.webp",
+        "meta_build": [
+            "agitacion",
+            "apreton_de_hierro",
+            "conciencia_de_estar_despiertos",
+            "ruina"
+        ],
+        "expert_perks": [
+            "mente_colmena",
+            "proyecto_secreto",
+            "retrocede_el_tiempo"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 11,
+        "priority": 1,
+        "name": "Krasue",
+        "wins": 0,
+        "rank": "Bronce",
+        "points": 3,
+        "hooks": 21,
+        "played": 2,
+        "average": 0,
+        "img": "img/krasue.webp",
+        "meta_build": [
+            "mente_colmena",
+            "dolor_resonante",
+            "ruina",
+            "la_emocion_de_la_caza"
+        ],
+        "expert_perks": [
+            "obertura_de_la_perdicion",
+            "ojo_errante",
+            "voracidad"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 12,
+        "priority": 3,
+        "name": "Chucky",
+        "wins": 0,
+        "rank": "Plata",
+        "points": 4,
+        "hooks": 22,
+        "played": 2,
+        "average": 0,
+        "img": "img/chucky.webp",
+        "meta_build": [
+            "enfurecimiento",
+            "dolor_resonante",
+            "erupcion",
+            "abrazo_de_la_muerte"
+        ],
+        "expert_perks": [
+            "amigos_hasta_el_fin",
+            "baterias_incluidas",
+            "yo_tambien_puedo_jugar"
+        ],
+        "performance": 66.7
+    },
+    {
+        "id": 13,
+        "priority": 6,
+        "name": "El Oni",
+        "wins": 0,
+        "rank": "Plata",
+        "points": 4,
+        "hooks": 19,
+        "played": 2,
+        "average": 0,
+        "img": "img/oni.webp",
+        "meta_build": [
+            "perseguidor_letal",
+            "terror_contagioso",
+            "miedo_fantasmal",
+            "duda_forzada"
+        ],
+        "expert_perks": [
+            "eco_de_sangre",
+            "némesis",
+            "tacticas_zanshin"
+        ],
+        "performance": 66.7
+    },
+    {
+        "id": 14,
+        "priority": 3,
+        "name": "Freddy Krueger",
+        "wins": 0,
+        "rank": "Oro",
+        "points": 6,
+        "hooks": 24,
+        "played": 2,
+        "average": 0,
+        "img": "img/freddy.webp",
+        "meta_build": [
+            "unidos_por_siempre",
+            "fuerza_brutal",
+            "pim_pam_pum",
+            "erupcion"
+        ],
+        "expert_perks": [
+            "enfurecimiento",
+            "guardian_de_sangre",
+            "recuerdame"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 15,
+        "priority": 10,
+        "name": "La Artista",
+        "wins": 0,
+        "rank": "Plata",
+        "points": 3,
+        "hooks": 17,
+        "played": 2,
+        "average": 0,
+        "img": "img/artist.webp",
+        "meta_build": [
+            "interruptor_de_hombre_muerto",
+            "parrillada_y_chile",
+            "aprendizaje_automatizado",
+            "pim_pam_pum"
+        ],
+        "expert_perks": [
+            "abrazo_de_la_muerte",
+            "dolor_resonante",
+            "arrepentimiento"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 16,
+        "priority": 3,
+        "name": "Wesker",
+        "wins": 0,
+        "rank": "Ceniza",
+        "points": 3,
+        "hooks": 16,
+        "played": 2,
+        "average": 0,
+        "img": "img/wesker.webp",
+        "meta_build": [
+            "agitacion",
+            "coulrofobia",
+            "dolor_resonante",
+            "erupcion"
+        ],
+        "expert_perks": [
+            "anatomia_superior",
+            "conciencia_de_estar_despiertos",
+            "terminal"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 17,
+        "priority": 8,
+        "name": "La Plaga",
+        "wins": 0,
+        "rank": "Bronce",
+        "points": 3,
+        "hooks": 17,
+        "played": 2,
+        "average": 0,
+        "img": "img/plague.webp",
+        "meta_build": [
+            "duda_forzada",
+            "perseguidor_letal",
+            "miedo_fantasmal",
+            "terror_contagioso"
+        ],
+        "expert_perks": [
+            "devocion_oscura",
+            "intervencion_corrupta",
+            "terror_contagioso"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 18,
+        "priority": 2,
+        "name": "Pirámide",
+        "wins": 0,
+        "rank": "Iridiscente",
+        "points": 6,
+        "hooks": 24,
+        "played": 2,
+        "average": 0,
+        "img": "img/pyramid.webp",
+        "meta_build": [
+            "intervencion_corrupta",
+            "mente_colmena",
+            "ruina",
+            "la_emocion_de_la_caza"
+        ],
+        "expert_perks": [
+            "atadura_mortal",
+            "penitencia_forzada",
+            "senda_del_tormento"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 19,
+        "priority": 4,
+        "name": "Michael Myers",
+        "wins": 0,
+        "rank": "Iridiscente",
+        "points": 6,
+        "hooks": 24,
+        "played": 2,
+        "average": 0,
+        "img": "img/myers.webp",
+        "meta_build": [
+            "intervencion_corrupta",
+            "desconcierto",
+            "dolor_resonante",
+            "anuncio_de_salmuera"
+        ],
+        "expert_perks": [
+            "jugar_con_la_comida",
+            "lo_mejor_para_el_final",
+            "luz_que_agoniza"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 20,
+        "priority": 10,
+        "name": "La Cazadora",
+        "wins": 0,
+        "rank": "Bronce",
+        "points": 3,
+        "hooks": 16,
+        "played": 2,
+        "average": 0,
+        "img": "img/huntress.webp",
+        "meta_build": [
+            "parrillada_y_chile",
+            "dolor_resonante",
+            "murmullo_amargo",
+            "retrocede_el_tiempo"
+        ],
+        "expert_perks": [
+            "arullo_de_cazadora",
+            "bestia_de_presa",
+            "instinto_territorial"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 21,
+        "priority": 9,
+        "name": "Cenobita",
+        "wins": 0,
+        "rank": "Plata",
+        "points": 3,
+        "hooks": 19,
+        "played": 2,
+        "average": 0,
+        "img": "img/pinhead.webp",
+        "meta_build": [
+            "perseguidor_letal",
+            "parrillada_y_chile",
+            "interruptor_de_hombre_muerto",
+            "erupcion"
+        ],
+        "expert_perks": [
+            "callejon_sin_salida",
+            "obsequio_de_dolor",
+            "tiempo_de_jugar"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 22,
+        "priority": 5,
+        "name": "El Arponero",
+        "wins": 0,
+        "rank": "Plata",
+        "points": 4,
+        "hooks": 20,
+        "played": 2,
+        "average": 0,
+        "img": "img/deathslinger.webp",
+        "meta_build": [
+            "perseguidor_letal",
+            "retrocede_el_tiempo",
+            "acechador_de_ciervos",
+            "garra_de_dragon"
+        ],
+        "expert_perks": [
+            "cabeza_dentada",
+            "interruptor_de_hombre_muerto",
+            "retribucion"
+        ],
+        "performance": 66.7
+    },
+    {
+        "id": 23,
+        "priority": 3,
+        "name": "La Adiestradora",
+        "wins": 0,
+        "rank": "Bronce",
+        "points": 3,
+        "hooks": 19,
+        "played": 2,
+        "average": 0,
+        "img": "img/houndmaster.webp",
+        "meta_build": [
+            "dolor_resonante",
+            "brutalidad_veloz",
+            "noqueo",
+            "ruina"
+        ],
+        "expert_perks": [
+            "brujula_irregular",
+            "sin_piedad",
+            "trueno_sismico"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 24,
+        "priority": 6,
+        "name": "Némesis",
+        "wins": 0,
+        "rank": "Oro",
+        "points": 6,
+        "hooks": 22,
+        "played": 2,
+        "average": 0,
+        "img": "img/nemesis.webp",
+        "meta_build": [
+            "discordancia",
+            "unidos_por_siempre",
+            "ruina",
+            "inmortal"
+        ],
+        "expert_perks": [
+            "erupcion",
+            "histeria",
+            "perseguidor_letal"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 25,
+        "priority": 5,
+        "name": "Springtrap",
+        "wins": 0,
+        "rank": "Bronce",
+        "points": 3,
+        "hooks": 19,
+        "played": 2,
+        "average": 0,
+        "img": "img/springtrap.webp",
+        "meta_build": [
+            "parrillada_y_chile",
+            "quebrantamentes",
+            "dolor_resonante",
+            "ruina"
+        ],
+        "expert_perks": [
+            "caos",
+            "miedo_fantasmal",
+            "pedido_de_ayuda"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 26,
+        "priority": 6,
+        "name": "El Demogorgon",
+        "wins": 0,
+        "rank": "Ceniza",
+        "points": 3,
+        "hooks": 15,
+        "played": 2,
+        "average": 0,
+        "img": "img/demogorgon.webp",
+        "meta_build": [
+            "duda_forzada",
+            "arrogancia_oscura",
+            "dolor_resonante",
+            "erupcion"
+        ],
+        "expert_perks": [
+            "quebrantamentes",
+            "restriccion_cruel",
+            "sobrecarga_demogorgon"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 27,
+        "priority": 4,
+        "name": "El Liche",
+        "wins": 0,
+        "rank": "Oro",
+        "points": 6,
+        "hooks": 23,
+        "played": 2,
+        "average": 0,
+        "img": "img/liche.webp",
+        "meta_build": [
+            "perseguidor_letal",
+            "acechador_de_ciervos",
+            "dolor_resonante",
+            "erupcion"
+        ],
+        "expert_perks": [
+            "armonizacion_de_tejido",
+            "arrogancia_oscura",
+            "toque_langido"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 28,
+        "priority": 2,
+        "name": "El Espectro",
+        "wins": 0,
+        "rank": "Plata",
+        "points": 6,
+        "hooks": 21,
+        "played": 2,
+        "average": 0,
+        "img": "img/wraith.webp",
+        "meta_build": [
+            "retrocede_el_tiempo",
+            "dolor_resonante",
+            "desconcierto",
+            "erupcion"
+        ],
+        "expert_perks": [
+            "depredacion",
+            "hijo_de_las_sombras",
+            "sabueso_de_sangre"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 29,
+        "priority": 8,
+        "name": "Alien",
+        "wins": 0,
+        "rank": "Ceniza",
+        "points": 3,
+        "hooks": 12,
+        "played": 2,
+        "average": 0,
+        "img": "img/alien.webp",
+        "meta_build": [
+            "unidos_por_siempre",
+            "baterias_incluidas",
+            "pim_pam_pum",
+            "erupcion"
+        ],
+        "expert_perks": [
+            "arma_definitiva",
+            "brutalidad_veloz",
+            "instinto_alienigena"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 30,
+        "priority": 2,
+        "name": "Lo Desconocido",
+        "wins": 0,
+        "rank": "Bronce",
+        "points": 3,
+        "hooks": 20,
+        "played": 2,
+        "average": 0,
+        "img": "img/unknown.webp",
+        "meta_build": [
+            "instinto_alienigena",
+            "amigos_hasta_el_fin",
+            "imprevisto",
+            "persecucion_furtiva"
+        ],
+        "expert_perks": [
+            "desatado",
+            "imprevisto",
+            "inacabado"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 31,
+        "priority": 7,
+        "name": "Trickster",
+        "wins": 0,
+        "rank": "Oro",
+        "points": 6,
+        "hooks": 22,
+        "played": 2,
+        "average": 0,
+        "img": "img/trickster.webp",
+        "meta_build": [
+            "tiempo_de_jugar",
+            "proyecto_secreto",
+            "pim_pam_pum",
+            "interruptor_de_hombre_muerto"
+        ],
+        "expert_perks": [
+            "deslumbrante",
+            "control_del_publico",
+            "sin_salida"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 32,
+        "priority": 5,
+        "name": "El Caballero",
+        "wins": 0,
+        "rank": "Ceniza",
+        "points": 3,
+        "hooks": 16,
+        "played": 2,
+        "average": 0,
+        "img": "img/knight.webp",
+        "meta_build": [
+            "mente_colmena",
+            "dolor_resonante",
+            "ruina",
+            "la_emocion_de_la_caza"
+        ],
+        "expert_perks": [
+            "enfrentar_a_la_oscuridad",
+            "no_hay_donde_esconderse",
+            "soberbia"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 33,
+        "priority": 7,
+        "name": "La Cerda",
+        "wins": 0,
+        "rank": "Bronce",
+        "points": 3,
+        "hooks": 18,
+        "played": 2,
+        "average": 0,
+        "img": "img/pig.webp",
+        "meta_build": [
+            "desconcierto",
+            "callejon_sin_salida",
+            "pim_pam_pum",
+            "abrazo_de_la_muerte"
+        ],
+        "expert_perks": [
+            "truco_del_verdugo",
+            "supervision",
+            "toma_una_decision"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 34,
+        "priority": 4,
+        "name": "El Doctor",
+        "wins": 0,
+        "rank": "Ceniza",
+        "points": 3,
+        "hooks": 16,
+        "played": 2,
+        "average": 0,
+        "img": "img/doctor.webp",
+        "meta_build": [
+            "tacticas_zanshin",
+            "pim_pam_pum",
+            "dolor_resonante",
+            "retrocede_el_tiempo"
+        ],
+        "expert_perks": [
+            "monitorizacion_y_abuso",
+            "sobrecarga",
+            "presencia_abrumadora"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 35,
+        "priority": 8,
+        "name": "Sadako",
+        "wins": 0,
+        "rank": "Oro",
+        "points": 6,
+        "hooks": 21,
+        "played": 2,
+        "average": 0,
+        "img": "img/sadako.webp",
+        "meta_build": [
+            "devoradora_de_esperanza",
+            "la_emocion_de_la_caza",
+            "mente_colmena",
+            "ruina"
+        ],
+        "expert_perks": [
+            "anuncio_de_salmuera",
+            "torrente_de_ira",
+            "tormenta_despiadada"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 36,
+        "priority": 7,
+        "name": "Bubba",
+        "wins": 0,
+        "rank": "Ceniza",
+        "points": 3,
+        "hooks": 13,
+        "played": 2,
+        "average": 0,
+        "img": "img/bubba.webp",
+        "meta_build": [
+            "discordancia",
+            "duda_forzada",
+            "terror_contagioso",
+            "desconcierto"
+        ],
+        "expert_perks": [
+            "muerte_de_franklin",
+            "noqueo",
+            "parrillada_y_chile"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 37,
+        "priority": 2,
+        "name": "La Draga",
+        "wins": 0,
+        "rank": "Ceniza",
+        "points": 3,
+        "hooks": 16,
+        "played": 2,
+        "average": 0,
+        "img": "img/dredge.webp",
+        "meta_build": [
+            "tierra_embrujada",
+            "devoradora_de_esperanza",
+            "amigos_hasta_el_fin",
+            "toma_una_decision"
+        ],
+        "expert_perks": [
+            "contacto_septico",
+            "disolucion",
+            "oscuridad_revelada"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 38,
+        "priority": 10,
+        "name": "La Legión",
+        "wins": 0,
+        "rank": "Ceniza",
+        "points": 0,
+        "hooks": 6,
+        "played": 2,
+        "average": 0,
+        "img": "img/legion.webp",
+        "meta_build": [
+            "devoradora_de_esperanza",
+            "la_emocion_de_la_caza",
+            "ruina",
+            "perseguidor_letal"
+        ],
+        "expert_perks": [
+            "discordancia",
+            "doncella_de_hierro",
+            "furia_ciega"
+        ],
+        "performance": 0
+    },
+    {
+        "id": 39,
+        "priority": 5,
+        "name": "La Bruja",
+        "wins": 0,
+        "rank": "Oro",
+        "points": 6,
+        "hooks": 23,
+        "played": 2,
+        "average": 0,
+        "img": "img/hag.webp",
+        "meta_build": [
+            "intervencion_corrupta",
+            "retrocede_el_tiempo",
+            "dolor_resonante",
+            "anuncio_de_salmuera"
+        ],
+        "expert_perks": [
+            "devoradora_de_esperanza",
+            "el_tercer_sello",
+            "ruina"
+        ],
+        "performance": 100
+    },
+    {
+        "id": 40,
+        "priority": 6,
+        "name": "La Comerciante",
+        "wins": 0,
+        "rank": "Bronce",
+        "points": 3,
+        "hooks": 18,
+        "played": 2,
+        "average": 0,
+        "img": "img/skullmerchant.webp",
+        "meta_build": [
+            "terminal",
+            "recuerdame",
+            "nadie_es_libre",
+            "sin_salida"
+        ],
+        "expert_perks": [
+            "hora_de_la_caceria",
+            "influencia",
+            "plaf"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 41,
+        "priority": 4,
+        "name": "Ghost Face",
+        "wins": 0,
+        "rank": "Bronce",
+        "points": 3,
+        "hooks": 19,
+        "played": 2,
+        "average": 0,
+        "img": "img/ghostface.webp",
+        "meta_build": [
+            "control_del_publico",
+            "devoradora_de_esperanza",
+            "tierra_embrujada",
+            "inmortal"
+        ],
+        "expert_perks": [
+            "persecucion_furtiva",
+            "soy_todo_oidos",
+            "temblores_trepidantes"
+        ],
+        "performance": 50
+    },
+    {
+        "id": 42,
+        "priority": 9,
+        "name": "El Trampero",
+        "wins": 0,
+        "rank": "Ceniza",
+        "points": 1,
+        "hooks": 15,
+        "played": 2,
+        "average": 0,
+        "img": "img/trapper.webp",
+        "meta_build": [
+            "intervencion_corrupta",
+            "dolor_resonante",
+            "retrocede_el_tiempo",
+            "enfurecimiento"
+        ],
+        "expert_perks": [
+            "agitacion",
+            "fuerza_brutal",
+            "presencia_perturbadora"
+        ],
+        "performance": 16.7
+    }
+]

@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Franluca - Liga del Ente: Killers v1.0</title>
+    <style>
+        :root {
+            --iri: #ff3333;
+            --oro: #ffcc00;
+            --plata: #e0e0e0;
+            --bronce: #cd7f32;
+            --ceniza: #999999;
+            --btn-win: #22c55e;
+            --btn-draw: #fbc02d;
+            --btn-loss: #ef4444;
+            --dark-bg: #0a0a0f;
+            --roulette-glow: #00ffff;
+            --card-bg: rgba(20, 20, 30, 0.95);
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --border-subtle: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1920px;
+            height: 1080px;
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(ellipse at 20% 0%, rgba(120, 0, 20, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(0, 40, 80, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, #0a0a0f 0%, #0d0d15 100%);
+        }
+
+        header {
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: linear-gradient(180deg, rgba(15, 15, 25, 0.98) 0%, rgba(10, 10, 15, 0.95) 100%);
+            border-bottom: 3px solid #ff2222;
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 0 0 60px rgba(255, 0, 0, 0.1);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff3333, transparent);
+            animation: header-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes header-glow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 480px;
+            flex-shrink: 0;
+        }
+
+        .channel-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 3px solid #ff3333;
+            box-shadow: 0 0 20px rgba(255, 50, 50, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .channel-name {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            color: #ff3333;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin: 0;
+            text-shadow: 0 0 20px rgba(255, 50, 50, 0.6);
+        }
+
+        .liga-logo-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+        }
+
+        .liga-main-logo {
+            height: 90px;
+            width: auto;
+            filter: drop-shadow(0 0 15px rgba(255, 50, 50, 0.5));
+            transition: transform 0.3s ease;
+        }
+
+        .liga-main-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 480px;
+            justify-content: flex-end;
+            flex-shrink: 0;
+        }
+
+        .btn-roulette {
+            background: linear-gradient(135deg, #ff3333 0%, #cc0000 100%);
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            padding: 16px 32px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 20px rgba(255, 50, 50, 0.4);
+        }
+
+        .btn-roulette:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 50, 50, 0.6);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .btn-roulette:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-roulette:disabled {
+            background: linear-gradient(135deg, #444 0%, #333 100%);
+            border-color: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .capture-area-camera {
+            width: 150px;
+            height: 80px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 15px;
+        }
+
+        .capture-area-game {
+            width: 150px;
+            height: 80px;
+            border-radius: 10px;
+            border: 3px dashed rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        #liga-canvas {
+            flex: 1;
+            display: flex;
+            padding: 15px;
+            gap: 14px;
+            width: 100%;
+            height: calc(1080px - 110px);
+        }
+
+        .rank-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-subtle);
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .rank-column:hover {
+            transform: translateY(-2px);
+        }
+
+        .col-iridiscente {
+            background: linear-gradient(180deg, rgba(80, 10, 20, 0.95) 0%, rgba(20, 5, 10, 0.98) 100%);
+            border-top: 4px solid var(--iri);
+            box-shadow: 0 0 40px rgba(255, 50, 50, 0.15), inset 0 0 60px rgba(255, 50, 50, 0.05);
+        }
+
+        .col-oro {
+            background: linear-gradient(180deg, rgba(60, 45, 10, 0.95) 0%, rgba(20, 15, 5, 0.98) 100%);
+            border-top: 4px solid var(--oro);
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.1), inset 0 0 40px rgba(255, 204, 0, 0.03);
+        }
+
+        .col-plata {
+            background: linear-gradient(180deg, rgba(40, 40, 50, 0.95) 0%, rgba(20, 20, 25, 0.98) 100%);
+            border-top: 4px solid var(--plata);
+            box-shadow: 0 0 20px rgba(224, 224, 224, 0.08);
+        }
+
+        .col-bronce {
+            background: linear-gradient(180deg, rgba(50, 30, 10, 0.95) 0%, rgba(20, 15, 5, 0.98) 100%);
+            border-top: 4px solid var(--bronce);
+            box-shadow: 0 0 20px rgba(205, 127, 50, 0.1);
+        }
+
+        .col-ceniza {
+            background: linear-gradient(180deg, rgba(25, 25, 30, 0.95) 0%, rgba(15, 15, 18, 0.98) 100%);
+            border-top: 4px solid var(--ceniza);
+            box-shadow: 0 0 15px rgba(153, 153, 153, 0.08);
+        }
+
+        .rank-header {
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+            position: relative;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+            padding: 10px;
+        }
+
+        .rank-icon-side {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        .rank-title {
+            z-index: 1;
+        }
+
+        .rank-icon-bg {
+            position: absolute;
+            height: 45px;
+            opacity: 0.5;
+            z-index: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .rank-header span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .killers-list {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .killers-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .killer-card {
+            border-radius: 10px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95) 0%, rgba(15, 15, 25, 0.9) 100%);
+            border: 1px solid var(--border-subtle);
+            cursor: pointer;
+            min-height: 65px;
+            flex-shrink: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .killer-card:hover {
+            transform: translateX(5px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .killer-card.no-candidato {
+            opacity: 0.25;
+            filter: grayscale(0.8);
+        }
+
+        .card-focus {
+            background: linear-gradient(135deg, rgba(50, 50, 80, 0.95) 0%, rgba(30, 30, 50, 0.9) 100%) !important;
+            border: 3px solid #00ffff !important;
+            transform: scale(1.06) !important;
+            z-index: 100 !important;
+            box-shadow: 0 0 40px 10px rgba(0, 255, 255, 0.4), inset 0 0 20px rgba(0, 255, 255, 0.2) !important;
+            transition: none !important;
+            opacity: 1 !important;
+            filter: grayscale(0) !important;
+        }
+
+        .card-focus-final {
+            border-color: #ff3333 !important;
+            box-shadow: 0 0 50px 15px rgba(255, 50, 50, 0.5) !important;
+            transition: all 0.5s ease !important;
+            animation: final-pulse 0.8s ease-in-out infinite;
+        }
+
+        @keyframes final-pulse {
+            0%, 100% { box-shadow: 0 0 50px 15px rgba(255, 50, 50, 0.5); }
+            50% { box-shadow: 0 0 60px 20px rgba(255, 50, 50, 0.7); }
+        }
+
+        .cruzar-arriba {
+            animation: cruzar-arriba 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            z-index: 1000 !important;
+            box-shadow: 0 0 50px 20px rgba(34, 197, 94, 0.8), 0 0 80px 40px rgba(34, 197, 94, 0.4) !important;
+            border-color: #22c55e !important;
+        }
+
+        @keyframes cruzar-arriba {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            50% { transform: translateY(-50px) scale(1.15); opacity: 1; }
+            100% { transform: translateY(-350px) scale(1.1); opacity: 0; }
+        }
+
+        .cruzar-abajo {
+            animation: cruzar-abajo 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            z-index: 1000 !important;
+            box-shadow: 0 0 50px 20px rgba(239, 68, 68, 0.8), 0 0 80px 40px rgba(239, 68, 68, 0.4) !important;
+            border-color: #ef4444 !important;
+        }
+
+        @keyframes cruzar-abajo {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            50% { transform: translateY(50px) scale(0.9); opacity: 1; }
+            100% { transform: translateY(350px) scale(0.95); opacity: 0; }
+        }
+
+        .subir-interno-anim {
+            animation: subir-dentro-columna 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            z-index: 1000 !important;
+            box-shadow: 0 0 40px 15px rgba(34, 197, 94, 0.6) !important;
+            border-color: #22c55e !important;
+        }
+
+        @keyframes subir-dentro-columna {
+            0% { transform: translateY(100px) scale(0.9); opacity: 0.3; }
+            30% { transform: translateY(-30px) scale(1.05); opacity: 1; }
+            60% { transform: translateY(10px) scale(1.02); opacity: 1; }
+            100% { transform: translateY(0) scale(1); opacity: 1; box-shadow: none; border-color: transparent; }
+        }
+
+        .bajar-interno-anim {
+            animation: bajar-dentro-columna 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            z-index: 1000 !important;
+            box-shadow: 0 0 40px 15px rgba(239, 68, 68, 0.6) !important;
+            border-color: #ef4444 !important;
+        }
+
+        @keyframes bajar-dentro-columna {
+            0% { transform: translateY(-100px) scale(1.1); opacity: 0.3; }
+            30% { transform: translateY(30px) scale(0.95); opacity: 1; }
+            60% { transform: translateY(-10px) scale(0.98); opacity: 1; }
+            100% { transform: translateY(0) scale(1); opacity: 1; box-shadow: none; border-color: transparent; }
+        }
+
+        .mismo-lugar-anim {
+            animation: same-place-glow 2s ease-in-out;
+            z-index: 100 !important;
+        }
+
+        @keyframes same-place-glow {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+            20% { transform: scale(1.15); box-shadow: 0 0 80px 20px rgba(255, 204, 0, 1); }
+            40% { transform: scale(1.1); box-shadow: 0 0 60px 15px rgba(255, 204, 0, 0.8); }
+            70% { transform: scale(1.05); box-shadow: 0 0 40px 10px rgba(255, 204, 0, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        .resaltar-latido {
+            animation: highlight-pulse 1.5s ease-in-out infinite;
+            z-index: 50 !important;
+            border-width: 2px !important;
+        }
+
+        @keyframes highlight-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+            15%, 45% { transform: scale(1.03); box-shadow: 0 0 25px currentColor, 0 4px 15px rgba(0, 0, 0, 0.3); }
+            30% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+        }
+
+        .perf-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #22d3ee;
+            border-right: 2px solid rgba(255, 255, 255, 0.1);
+            padding-right: 10px;
+            line-height: 1;
+            min-width: 55px;
+            text-align: right;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .killer-name {
+            font-weight: 700;
+            font-size: 1rem;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .meta-stats {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .meta-stats span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 10px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .meta-stats span:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .hook-icon {
+            width: 16px;
+            height: 16px;
+            filter: drop-shadow(0 0 3px rgba(255, 200, 100, 0.6));
+            vertical-align: middle;
+            margin-right: 3px;
+        }
+
+        .killer-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            flex-shrink: 0;
+        }
+
+        .killer-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .killer-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: nowrap;
+        }
+
+        .killer-stats .perf-value {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .killer-stats .stat-row {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #9ca3af;
+            white-space: nowrap;
+        }
+
+        .stat-item img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .stat-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .modal-base {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(180deg, rgba(15, 15, 25, 0.98) 0%, rgba(10, 10, 15, 0.98) 100%);
+            padding: 35px;
+            border-radius: 20px;
+            border: 3px solid #ff3333;
+            z-index: 100000;
+            box-shadow: 0 0 100px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 50, 50, 0.2), inset 0 0 60px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-base.visible {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 99999;
+            display: none;
+        }
+
+        .perks-display-flex {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            min-height: 200px;
+            width: 100%;
+        }
+
+        .perk-slot {
+            width: 130px;
+            height: 130px;
+            transform: rotate(45deg);
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 40px;
+            position: relative;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .perk-slot:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .perk-img-mod {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-45deg) scale(1.4);
+            transition: transform 0.3s ease;
+        }
+
+        .perk-label-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-align: center;
+            min-height: 45px;
+            transition: opacity 0.5s ease;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .champion-star-container {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            z-index: 15;
+        }
+
+        .trophy-img {
+            width: 100%;
+            filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.6));
+        }
+
+        .star-svg {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            fill: var(--oro);
+        }
+
+        .win-count {
+            position: relative;
+            color: var(--oro);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            z-index: 16;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            user-select: none;
+        }
+
+        .star-svg {
+            fill: var(--oro);
+            pointer-events: none;
+        }
+
+        .btn-modal-action {
+            background: transparent;
+            padding: 24px;
+            border-radius: 14px;
+            border: 3px solid;
+            color: white;
+            font-weight: 700;
+            font-size: 1.4rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-modal-action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-modal-action:hover::before {
+            left: 100%;
+        }
+
+        .btn-win-fix {
+            border-color: var(--btn-win);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.3) 0%, rgba(22, 163, 74, 0.2) 100%);
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-win-fix:hover {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.5) 0%, rgba(22, 163, 74, 0.4) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(34, 197, 94, 0.5);
+        }
+
+        .btn-draw-fix {
+            border-color: var(--btn-draw);
+            background: linear-gradient(135deg, rgba(251, 192, 45, 0.3) 0%, rgba(217, 160, 30, 0.2) 100%);
+            box-shadow: 0 4px 20px rgba(251, 192, 45, 0.3);
+            color: #211a00 !important;
+        }
+
+        .btn-draw-fix:hover {
+            background: linear-gradient(135deg, rgba(251, 192, 45, 0.5) 0%, rgba(217, 160, 30, 0.4) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(251, 192, 45, 0.5);
+        }
+
+        .btn-loss-fix {
+            border-color: var(--btn-loss);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.2) 100%);
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-loss-fix:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.5) 0%, rgba(220, 38, 38, 0.4) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(239, 68, 68, 0.5);
+        }
+
+        .btn-cancelar {
+            background: transparent;
+            border: none;
+            color: #ff5555;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 8px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+            transition: color 0.2s ease;
+            padding: 10px;
+        }
+
+        .btn-cancelar:hover {
+            color: #ff7777;
+            text-shadow: 0 0 10px rgba(255, 85, 85, 0.5);
+        }
+
+        #config-panel {
+            position: absolute;
+            top: 120px;
+            right: 40px;
+            background: linear-gradient(180deg, rgba(20, 20, 30, 0.98) 0%, rgba(15, 15, 20, 0.98) 100%);
+            padding: 25px;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+            width: 300px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .spinning-img {
+            animation: spin 0.1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(-45deg) scale(1.4) translateY(5px);
+            }
+        }
+
+        .config-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .config-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .config-btn-danger {
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #ef4444;
+        }
+
+        .config-btn-danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-left">
+            <img src="img/logo_canal.webp" alt="Logo" class="channel-logo">
+            <h2 class="channel-name">FRANLUCA</h2>
+            <div class="capture-area-camera" title="Área de Cámara"></div>
+        </div>
+        <div class="liga-logo-container">
+            <img src="img/logo_liga_ente.png" alt="Logo" class="liga-main-logo">
+        </div>
+        <div class="header-right">
+            <div class="capture-area-game" title="Área de Juego"></div>
+            <button class="btn-roulette" id="btn-roulette" onclick="startRoulette()">🎲 Elegir Killer</button>
+            <button class="btn-config"
+                style="width:55px; height:55px; background: linear-gradient(135deg, #2a2a3e 0%, #1a1a2e 100%); border:2px solid rgba(255,255,255,0.15); border-radius:12px; color:white; cursor:pointer; margin-left:18px; font-size: 1.4rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);"
+                onclick="toggleConfig()">⚙️</button>
+        </div>
+        <div id="config-panel">
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:15px;">
+                <span style="color:var(--oro); font-weight:bold; font-size:0.9rem; text-transform:uppercase;">🏆 Campeón</span>
+                <select id="champion-select" onchange="updateChampionWinsDisplay()" style="padding:8px; border-radius:6px; background:#1a1a2e; color:white; border:1px solid rgba(255,255,255,0.2);">
+                </select>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="number" id="champion-wins" min="0" value="0" style="width:60px; padding:8px; border-radius:6px; background:#1a1a2e; color:white; border:1px solid rgba(255,255,255,0.2); text-align:center;">
+                    <button class="config-btn" onclick="saveChampionWins()" style="flex:1; padding:8px; font-size:0.8rem;">Guardar</button>
+                </div>
+            </div>
+            <button class="config-btn" onclick="exportar()">📤 Exportar JSON</button>
+            <button class="config-btn" onclick="importar()">📥 Importar JSON</button>
+            <textarea id="json-io"
+                style="display:none; height:120px; font-size:0.9rem; color:white; background:#1a1a2e; padding: 12px; border:2px solid rgba(255,255,255,0.1); border-radius:8px;"></textarea>
+            <button id="btn-load" class="config-btn" style="background:#166534; border:none; display:none;"
+                onclick="confirmarImport()">✓ Confirmar Carga</button>
+            <button class="config-btn config-btn-danger"
+                onclick="openResetModal()">⚠️ RESET TOTAL</button>
+        </div>
+    </header>
+
+    <main id="liga-canvas"></main>
+
+    <div id="modal-overlay" onclick="closeModals()"></div>
+
+    <div id="action-modal" class="modal-base" style="width:950px; gap:25px;">
+        <div
+            style="display: flex; align-items: center; gap: 30px; background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+            <img id="modal-img" src=""
+                style="width: 130px; height: 130px; border-radius: 16px; object-fit: cover; border: 4px solid rgba(255,255,255,0.2); box-shadow: 0 8px 30px rgba(0,0,0,0.4);">
+            <div style="flex:1; text-align: center;">
+                <div id="modal-title"
+                    style="font-size: 2.6rem; font-weight: 900; text-align:center; text-transform:uppercase; font-family: 'Orbitron', sans-serif; letter-spacing: 3px; text-shadow: 0 3px 10px rgba(0,0,0,0.5);">Name</div>
+                <div id="modal-rank-display"
+                    style="height: 55px; display: flex; align-items: center; justify-content: center; position: relative; font-weight: 700; text-transform: uppercase; letter-spacing: 4px; font-size: 1.6rem; margin-top: 8px;">
+                    <img id="modal-rank-icon-bg" src=""
+                        style="position: absolute; height: 100%; opacity: 0.6; z-index: -1;">
+                    <span id="modal-rank-text" style="text-shadow: 0 2px 8px rgba(0,0,0,0.8);"></span>
+                </div>
+            </div>
+        </div>
+        <div class="perk-mission-box"
+            style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%); border-radius: 16px; padding: 30px; border: 2px dashed rgba(255, 255, 255, 0.15);">
+            <span id="modal-mission-title"
+                style="font-size: 1.8rem; font-weight: 700; text-transform: uppercase; color: var(--oro); text-align: center; display: block; margin-bottom: 25px; font-family: 'Orbitron', sans-serif; letter-spacing: 3px; text-shadow: 0 0 20px rgba(255, 204, 0, 0.3);">MODO</span>
+            <div id="modal-perks-container" class="perks-display-flex"></div>
+        </div>
+        <input type="number" id="modal-hooks" placeholder="⚙️ Hooks obtenidos (0-12)"
+            style="text-align:center; padding: 22px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.1); background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%); color: white; font-weight: 700; font-size: 1.4rem; width: 100%; font-family: 'Rajdhani', sans-serif;">
+        <div style="display:flex; flex-direction: column; gap:12px">
+            <button class="btn-modal-action btn-win-fix" onclick="registrarResultado('win')"><img src="img/hook.webp" style="width:32px; height:32px; margin-right:12px; vertical-align:middle;">VICTORIA (+3 Puntos)</button>
+            <button class="btn-modal-action btn-draw-fix" onclick="registrarResultado('draw')"><img src="img/hook.webp" style="width:32px; height:32px; margin-right:12px; vertical-align:middle;">EMPATE (+1 Punto)</button>
+            <button class="btn-modal-action btn-loss-fix" onclick="registrarResultado('loss')"><img src="img/hook.webp" style="width:32px; height:32px; margin-right:12px; vertical-align:middle;">DERROTA (0 Puntos)</button>
+        </div>
+        <button class="btn-cancelar" onclick="closeModals()">✕ Cancelar</button>
+    </div>
+
+    <div id="confirm-reset-modal" class="modal-base" style="width:520px; text-align:center; gap:25px;">
+        <h2 style="color:#ef4444; text-transform:uppercase; font-family: 'Orbitron', sans-serif; letter-spacing: 3px; font-size: 1.8rem; text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);">⚠️ ADVERTENCIA</h2>
+        <p style="font-size: 1.4rem; margin:15px 0; color: #d1d5db;">¿Borrar todo el progreso de la liga?<br>Esta acción no se puede deshacer.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <button
+                style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: white; padding: 18px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; font-family: 'Orbitron', sans-serif; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);"
+                onclick="confirmReset()">SÍ, RESETEAR</button>
+            <button
+                style="background: linear-gradient(135deg, #4b5563 0%, #374151 100%); color: white; padding: 18px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; font-family: 'Orbitron', sans-serif;"
+                onclick="closeModals()">CANCELAR</button>
+        </div>
+    </div>
+
+    <script>
+        const DB_KEY = 'liga_killers_v1_0';
+        const RANKS = ["Ceniza", "Bronce", "Plata", "Oro", "Iridiscente"];
+        const GENERIC_POOL = ["acechador_de_ciervos", "apreton_de_hierro", "carnicero_chapucero", "desasosiego", "esperanza_rota", "espias_de_las_sombras", "santuario_monstruoso", "implacable", "insidia", "la_emocion_de_la_caza", "nadie_escapa_de_la_muerte", "murmullo_amargo", "murmullos"];
+
+        const INITIAL_KILLERS = [
+            { id: 1, priority: 3, name: "El Payaso", wins: 0, rank: "Iridiscente", points: 6, hooks: 24, played: 2, img: "img/clown.webp", meta_build: ["amigos_hasta_el_fin", "brutalidad_veloz", "persecucion_furtiva", "aprendizaje_automatizado"], expert_perks: ["coulrofobia", "desconcierto", "pim_pam_pum"] },
+            { id: 2, priority: 9, name: "El Deterioro", wins: 0, rank: "Bronce", points: 3, hooks: 17, played: 2, img: "img/blight.webp", meta_build: ["enfurecimiento", "ruina", "obertura_de_la_perdicion", "dolor_resonante"], expert_perks: ["garra_de_dragon", "favor_de_sangre", "inmortal"] },
+            { id: 3, priority: 8, name: "La Enfermera", wins: 1, rank: "Plata", points: 3, hooks: 19, played: 2, img: "img/nurse.webp", meta_build: ["obsequio_de_dolor", "agitacion", "tanatofobia", "dolor_resonante"], expert_perks: ["aliento", "tanatofobia", "vocacion_de_enfermera"] },
+            { id: 4, priority: 1, name: "Hillbilly", wins: 0, rank: "Iridiscente", points: 6, hooks: 24, played: 2, img: "img/billy.webp", meta_build: ["terror_contagioso", "duda_forzada", "dolor_resonante", "ruina"], expert_perks: ["hijo_de_la_luz", "reparador", "resistente"] },
+            { id: 5, priority: 2, name: "Los Mellizos", wins: 0, rank: "Oro", points: 6, hooks: 24, played: 2, img: "img/twins.webp", meta_build: ["acechador_de_ciervos", "ruina", "inmortal", "mente_colmena"], expert_perks: ["acumulador", "golpe_de_gracia", "opresion"] },
+            { id: 6, priority: 1, name: "Drácula", wins: 0, rank: "Oro", points: 6, hooks: 24, played: 2, img: "img/dracula.webp", meta_build: ["unidos_por_siempre", "erupcion", "opresion", "agitacion"], expert_perks: ["codicia_humana", "dominacion", "destino_miserable"] },
+            { id: 7, priority: 1, name: "Kaneki", wins: 0, rank: "Plata", points: 6, hooks: 21, played: 2, img: "img/kaneki.webp", meta_build: ["amigos_hasta_el_fin", "persecucion_furtiva", "abrazo_de_la_muerte", "dolor_resonante"], expert_perks: ["pura_miseria", "nadie_es_libre", "unidos_por_siempre"] },
+            { id: 8, priority: 7, name: "La Espíritu", wins: 0, rank: "Plata", points: 3, hooks: 20, played: 2, img: "img/spirit.webp", meta_build: ["amigos_hasta_el_fin", "carnicero_chapucero", "dolor_resonante", "ruina"], expert_perks: ["furia_espiritual", "tierra_embrujada", "rencor"] },
+            { id: 9, priority: 4, name: "La Singularidad", wins: 0, rank: "Plata", points: 4, hooks: 20, played: 2, img: "img/singularity.webp", meta_build: ["opresion", "pim_pam_pum", "erupcion", "anuncio_de_salmuera"], expert_perks: ["aprendizaje_automatizado", "duda_forzada", "limites_geneticos"] },
+            { id: 10, priority: 1, name: "Vecna", wins: 0, rank: "Ceniza", points: 3, hooks: 16, played: 2, img: "img/vecna.webp", meta_build: ["agitacion", "apreton_de_hierro", "conciencia_de_estar_despiertos", "ruina"], expert_perks: ["mente_colmena", "proyecto_secreto", "retrocede_el_tiempo"] },
+            { id: 11, priority: 1, name: "Krasue", wins: 0, rank: "Bronce", points: 3, hooks: 21, played: 2, img: "img/krasue.webp", meta_build: ["mente_colmena", "dolor_resonante", "ruina", "la_emocion_de_la_caza"], expert_perks: ["obertura_de_la_perdicion", "ojo_errante", "voracidad"] },
+            { id: 12, priority: 3, name: "Chucky", wins: 0, rank: "Plata", points: 4, hooks: 22, played: 2, img: "img/chucky.webp", meta_build: ["enfurecimiento", "dolor_resonante", "erupcion", "abrazo_de_la_muerte"], expert_perks: ["amigos_hasta_el_fin", "baterias_incluidas", "yo_tambien_puedo_jugar"] },
+            { id: 13, priority: 6, name: "El Oni", wins: 0, rank: "Plata", points: 4, hooks: 19, played: 2, img: "img/oni.webp", meta_build: ["perseguidor_letal", "terror_contagioso", "miedo_fantasmal", "duda_forzada"], expert_perks: ["eco_de_sangre", "nemesis", "tacticas_zanshin"] },
+            { id: 14, priority: 3, name: "Freddy Krueger", wins: 0, rank: "Oro", points: 6, hooks: 24, played: 2, img: "img/freddy.webp", meta_build: ["unidos_por_siempre", "fuerza_brutal", "pim_pam_pum", "erupcion"], expert_perks: ["enfurecimiento", "guardian_de_sangre", "recuerdame"] },
+            { id: 15, priority: 10, name: "La Artista", wins: 0, rank: "Plata", points: 3, hooks: 17, played: 2, img: "img/artist.webp", meta_build: ["interruptor_de_hombre_muerto", "parrillada_y_chile", "aprendizaje_automatizado", "pim_pam_pum"], expert_perks: ["abrazo_de_la_muerte", "dolor_resonante", "arrepentimiento"] },
+            { id: 16, priority: 3, name: "Wesker", wins: 0, rank: "Ceniza", points: 3, hooks: 16, played: 2, img: "img/wesker.webp", meta_build: ["agitacion", "coulrofobia", "dolor_resonante", "erupcion"], expert_perks: ["anatomia_superior", "conciencia_de_estar_despiertos", "terminal"] },
+            { id: 17, priority: 8, name: "La Plaga", wins: 0, rank: "Bronce", points: 3, hooks: 17, played: 2, img: "img/plague.webp", meta_build: ["duda_forzada", "perseguidor_letal", "miedo_fantasmal", "terror_contagioso"], expert_perks: ["devocion_oscura", "intervencion_corrupta", "terror_contagioso"] },
+            { id: 18, priority: 2, name: "Pirámide", wins: 0, rank: "Iridiscente", points: 6, hooks: 24, played: 2, img: "img/pyramid.webp", meta_build: ["intervencion_corrupta", "mente_colmena", "ruina", "la_emocion_de_la_caza"], expert_perks: ["atadura_mortal", "penitencia_forzada", "senda_del_tormento"] },
+            { id: 19, priority: 4, name: "Michael Myers", wins: 0, rank: "Iridiscente", points: 6, hooks: 24, played: 2, img: "img/myers.webp", meta_build: ["intervencion_corrupta", "desconcierto", "dolor_resonante", "anuncio_de_salmuera"], expert_perks: ["jugar_con_la_comida", "lo_mejor_para_el_final", "luz_que_agoniza"] },
+            { id: 20, priority: 10, name: "La Cazadora", wins: 0, rank: "Bronce", points: 3, hooks: 16, played: 2, img: "img/huntress.webp", meta_build: ["parrillada_y_chile", "dolor_resonante", "murmullo_amargo", "retrocede_el_tiempo"], expert_perks: ["arullo_de_cazadora", "bestia_de_presa", "instinto_territorial"] },
+            { id: 21, priority: 9, name: "Cenobita", wins: 0, rank: "Plata", points: 3, hooks: 19, played: 2, img: "img/pinhead.webp", meta_build: ["perseguidor_letal", "parrillada_y_chile", "interruptor_de_hombre_muerto", "erupcion"], expert_perks: ["callejon_sin_salida", "obsequio_de_dolor", "tiempo_de_jugar"] },
+            { id: 22, priority: 5, name: "El Arponero", wins: 0, rank: "Plata", points: 4, hooks: 20, played: 2, img: "img/deathslinger.webp", meta_build: ["perseguidor_letal", "retrocede_el_tiempo", "acechador_de_ciervos", "garra_de_dragon"], expert_perks: ["cabeza_dentada", "interruptor_de_hombre_muerto", "retribucion"] },
+            { id: 23, priority: 3, name: "La Adiestradora", wins: 0, rank: "Bronce", points: 3, hooks: 19, played: 2, img: "img/houndmaster.webp", meta_build: ["dolor_resonante", "brutalidad_veloz", "noqueo", "ruina"], expert_perks: ["brujula_irregular", "sin_piedad", "trueno_sismico"] },
+            { id: 24, priority: 6, name: "Némesis", wins: 0, rank: "Oro", points: 6, hooks: 22, played: 2, img: "img/nemesis.webp", meta_build: ["discordancia", "unidos_por_siempre", "ruina", "inmortal"], expert_perks: ["erupcion", "histeria", "perseguidor_letal"] },
+            { id: 25, priority: 5, name: "Springtrap", wins: 0, rank: "Bronce", points: 3, hooks: 19, played: 2, img: "img/springtrap.webp", meta_build: ["parrillada_y_chile", "quebrantamentes", "dolor_resonante", "ruina"], expert_perks: ["caos", "miedo_fantasmal", "pedido_de_ayuda"] },
+            { id: 26, priority: 6, name: "El Demogorgon", wins: 0, rank: "Ceniza", points: 3, hooks: 15, played: 2, img: "img/demogorgon.webp", meta_build: ["duda_forzada", "arrogancia_oscura", "dolor_resonante", "erupcion"], expert_perks: ["quebrantamentes", "restriccion_cruel", "sobrecarga_demogorgon"] },
+            { id: 27, priority: 4, name: "El Liche", wins: 0, rank: "Oro", points: 6, hooks: 23, played: 2, img: "img/liche.webp", meta_build: ["perseguidor_letal", "acechador_de_ciervos", "dolor_resonante", "erupcion"], expert_perks: ["armonizacion_de_tejido", "arrogancia_oscura", "toque_langido"] },
+            { id: 28, priority: 2, name: "El Espectro", wins: 0, rank: "Plata", points: 6, hooks: 21, played: 2, img: "img/wraith.webp", meta_build: ["retrocede_el_tiempo", "dolor_resonante", "desconcierto", "erupcion"], expert_perks: ["depredacion", "hijo_de_las_sombras", "sabueso_de_sangre"] },
+            { id: 29, priority: 8, name: "Alien", wins: 0, rank: "Ceniza", points: 3, hooks: 12, played: 2, img: "img/alien.webp", meta_build: ["unidos_por_siempre", "baterias_incluidas", "pim_pam_pum", "erupcion"], expert_perks: ["arma_definitiva", "brutalidad_veloz", "instinto_alienigena"] },
+            { id: 30, priority: 2, name: "Lo Desconocido", wins: 0, rank: "Bronce", points: 3, hooks: 20, played: 2, img: "img/unknown.webp", meta_build: ["instinto_alienigena", "amigos_hasta_el_fin", "imprevisto", "persecucion_furtiva"], expert_perks: ["desatado", "imprevisto", "inacabado"] },
+            { id: 31, priority: 7, name: "Trickster", wins: 0, rank: "Oro", points: 6, hooks: 22, played: 2, img: "img/trickster.webp", meta_build: ["tiempo_de_jugar", "proyecto_secreto", "pim_pam_pum", "interruptor_de_hombre_muerto"], expert_perks: ["deslumbrante", "control_del_publico", "sin_salida"] },
+            { id: 32, priority: 5, name: "El Caballero", wins: 0, rank: "Ceniza", points: 3, hooks: 16, played: 2, img: "img/knight.webp", meta_build: ["mente_colmena", "dolor_resonante", "ruina", "la_emocion_de_la_caza"], expert_perks: ["enfrentar_a_la_oscuridad", "no_hay_donde_esconderse", "soberbia"] },
+            { id: 33, priority: 7, name: "La Cerda", wins: 0, rank: "Bronce", points: 3, hooks: 18, played: 2, img: "img/pig.webp", meta_build: ["desconcierto", "callejon_sin_salida", "pim_pam_pum", "abrazo_de_la_muerte"], expert_perks: ["truco_del_verdugo", "supervision", "toma_una_decision"] },
+            { id: 34, priority: 4, name: "El Doctor", wins: 0, rank: "Ceniza", points: 3, hooks: 16, played: 2, img: "img/doctor.webp", meta_build: ["tacticas_zanshin", "pim_pam_pum", "dolor_resonante", "retrocede_el_tiempo"], expert_perks: ["monitorizacion_y_abuso", "sobrecarga", "presencia_abrumadora"] },
+            { id: 35, priority: 8, name: "Sadako", wins: 0, rank: "Oro", points: 6, hooks: 21, played: 2, img: "img/sadako.webp", meta_build: ["devoradora_de_esperanza", "la_emocion_de_la_caza", "mente_colmena", "ruina"], expert_perks: ["anuncio_de_salmuera", "torrente_de_ira", "tormenta_despiadada"] },
+            { id: 36, priority: 7, name: "Bubba", wins: 0, rank: "Ceniza", points: 3, hooks: 13, played: 2, img: "img/bubba.webp", meta_build: ["discordancia", "duda_forzada", "terror_contagioso", "desconcierto"], expert_perks: ["muerte_de_franklin", "noqueo", "parrillada_y_chile"] },
+            { id: 37, priority: 2, name: "La Draga", wins: 0, rank: "Ceniza", points: 3, hooks: 16, played: 2, img: "img/dredge.webp", meta_build: ["tierra_embrujada", "devoradora_de_esperanza", "amigos_hasta_el_fin", "toma_una_decision"], expert_perks: ["contacto_septico", "disolucion", "oscuridad_revelada"] },
+            { id: 38, priority: 10, name: "La Legión", wins: 0, rank: "Ceniza", points: 0, hooks: 6, played: 2, img: "img/legion.webp", meta_build: ["devoradora_de_esperanza", "la_emocion_de_la_caza", "ruina", "perseguidor_letal"], expert_perks: ["discordancia", "doncella_de_hierro", "furia_ciega"] },
+            { id: 39, priority: 5, name: "La Bruja", wins: 0, rank: "Oro", points: 6, hooks: 23, played: 2, img: "img/hag.webp", meta_build: ["intervencion_corrupta", "retrocede_el_tiempo", "dolor_resonante", "anuncio_de_salmuera"], expert_perks: ["devoradora_de_esperanza", "el_tercer_sello", "ruina"] },
+            { id: 40, priority: 6, name: "La Comerciante", wins: 0, rank: "Bronce", points: 3, hooks: 18, played: 2, img: "img/skullmerchant.webp", meta_build: ["terminal", "recuerdame", "nadie_es_libre", "sin_salida"], expert_perks: ["hora_de_la_caceria", "influencia", "plaf"] },
+            { id: 41, priority: 4, name: "Ghost Face", wins: 0, rank: "Bronce", points: 3, hooks: 19, played: 2, img: "img/ghostface.webp", meta_build: ["control_del_publico", "devoradora_de_esperanza", "tierra_embrujada", "inmortal"], expert_perks: ["persecucion_furtiva", "soy_todo_oidos", "temblores_trepidantes"] },
+            { id: 42, priority: 9, name: "El Trampero", wins: 0, rank: "Ceniza", points: 1, hooks: 15, played: 2, img: "img/trapper.webp", meta_build: ["intervencion_corrupta", "dolor_resonante", "retrocede_el_tiempo", "enfurecimiento"], expert_perks: ["agitacion", "fuerza_brutal", "presencia_perturbadora"] }
+        ];
+
+        let killers = [];
+        let currentRound = 0;
+        let highlightedIds = [];
+        let selectedKillerId = null;
+
+        function init() {
+            try {
+                const local = localStorage.getItem(DB_KEY);
+                if (local) {
+                    killers = JSON.parse(local);
+                    killers.forEach(k => {
+                        if (k.lastRound === undefined) k.lastRound = 0;
+                        if (k.wins === undefined) k.wins = 0;
+                    });
+                    const storedRound = localStorage.getItem('liga_currentRound_killers');
+                    if (storedRound) currentRound = parseInt(storedRound);
+                } else {
+                    killers = INITIAL_KILLERS.map(k => ({ ...k, performance: 0, lastRound: 0 }));
+                }
+                killers.forEach(k => {
+                    if (k.played > 0) k.performance = parseFloat(((k.points / (k.played * 3)) * 100).toFixed(1));
+                    else k.performance = 0;
+                });
+                render();
+            } catch (e) { console.error(e); }
+        }
+
+        function cleanForFilename(str) {
+            if (!str) return "empty";
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/ /g, "_");
+        }
+
+        function sortKillers(arr) {
+            return arr.sort((a, b) => (b.performance - a.performance) || (b.hooks - a.hooks) || (a.priority - b.priority));
+        }
+
+        function openResetModal() {
+            document.getElementById('config-panel').style.display = 'none';
+            document.getElementById('modal-overlay').style.display = 'block';
+            document.getElementById('confirm-reset-modal').classList.add('visible');
+        }
+
+        function confirmReset() { localStorage.removeItem(DB_KEY); localStorage.removeItem('liga_currentRound_killers'); location.reload(); }
+        function toggleConfig() { const p = document.getElementById('config-panel'); p.style.display = p.style.display === 'flex' ? 'none' : 'flex'; }
+        function closeModals() { document.getElementById('modal-overlay').style.display = 'none'; document.querySelectorAll('.modal-base').forEach(m => m.classList.remove('visible')); document.getElementById('modal-hooks').value = ""; }
+
+        function registrarResultado(res) {
+            const k = killers.find(x => x.id === selectedKillerId);
+            const h = parseInt(document.getElementById('modal-hooks').value) || 0;
+            document.querySelectorAll('.killer-card').forEach(c => c.classList.remove('card-focus', 'card-focus-final', 'no-candidato', 'cruzar-arriba', 'cruzar-abajo', 'subir-interno-anim', 'bajar-interno-anim', 'mismo-lugar-anim'));
+
+            const currentRankListPrev = sortKillers(killers.filter(x => x.rank === k.rank));
+            const oldInternalIndex = currentRankListPrev.findIndex(x => x.id === k.id);
+            let implicadosIds = [k.id];
+            let victimId = null;
+            let rIndex = RANKS.indexOf(k.rank);
+            const cardK = document.getElementById(`killer-${k.id}`);
+
+            if (res === 'win' && rIndex < 4) {
+                let rSup = RANKS[rIndex + 1];
+                let victims = killers.filter(x => x.rank === rSup).sort((a, b) => (a.performance - b.performance) || (a.hooks - b.hooks) || (b.priority - a.priority));
+                if (victims.length > 0) {
+                    victimId = victims[0].id;
+                    implicadosIds.push(victimId);
+
+                    const victimCard = document.getElementById(`killer-${victimId}`);
+
+                    cardK.classList.add('cruzar-arriba');
+                    victimCard.classList.add('cruzar-abajo');
+
+                    k.played++; k.hooks += h;
+                    if (res === 'win') k.points += 3;
+                    k.performance = parseFloat(((k.points / (k.played * 3)) * 100).toFixed(1));
+
+                    k.lastRound = currentRound;
+                    localStorage.setItem(DB_KEY, JSON.stringify(killers));
+
+                    if (victimId) {
+                        const victim = killers.find(x => x.id === victimId);
+                        const tempRank = k.rank;
+                        k.rank = victim.rank;
+                        victim.rank = tempRank;
+
+                        k.priority = 9999;
+                        victim.priority = 0.001;
+                    }
+
+                    RANKS.forEach(r => {
+                        let col = killers.filter(x => x.rank === r).sort((a, b) => (b.performance - a.performance) || (b.hooks - a.hooks) || (a.priority - b.priority));
+                        col.forEach((killer, idx) => killer.priority = idx + 1);
+                    });
+
+                    closeModals();
+                    setTimeout(() => {
+                        highlightedIds = implicadosIds;
+                        render();
+                        setTimeout(() => { highlightedIds = []; render(); }, 4000);
+                    }, 2800);
+                    return;
+                }
+            } else if (res === 'loss' && rIndex > 0) {
+                let rInf = RANKS[rIndex - 1];
+                let heroes = killers.filter(x => x.rank === rInf).sort((a, b) => (b.performance - a.performance) || (b.hooks - a.hooks) || (a.priority - b.priority));
+                if (heroes.length > 0) {
+                    victimId = heroes[0].id;
+                    implicadosIds.push(victimId);
+
+                    const victimCard = document.getElementById(`killer-${victimId}`);
+
+                    cardK.classList.add('cruzar-abajo');
+                    victimCard.classList.add('cruzar-arriba');
+
+                    k.played++; k.hooks += h;
+                    if (res === 'win') k.points += 3;
+                    k.performance = parseFloat(((k.points / (k.played * 3)) * 100).toFixed(1));
+
+                    k.lastRound = currentRound;
+                    localStorage.setItem(DB_KEY, JSON.stringify(killers));
+
+                    if (victimId) {
+                        const victim = killers.find(x => x.id === victimId);
+                        const tempRank = k.rank;
+                        k.rank = victim.rank;
+                        victim.rank = tempRank;
+
+                        k.priority = 0.001;
+                        victim.priority = 9999;
+                    }
+
+                    RANKS.forEach(r => {
+                        let col = killers.filter(x => x.rank === r).sort((a, b) => (b.performance - a.performance) || (b.hooks - a.hooks) || (a.priority - b.priority));
+                        col.forEach((killer, idx) => killer.priority = idx + 1);
+                    });
+
+                    localStorage.setItem(DB_KEY, JSON.stringify(killers));
+
+                    closeModals();
+                    setTimeout(() => {
+                        highlightedIds = implicadosIds;
+                        render();
+                        setTimeout(() => { highlightedIds = []; render(); }, 4000);
+                    }, 2800);
+                    return;
+                }
+            } else {
+                const tempPoints = (res === 'win') ? k.points + 3 : (res === 'draw' ? k.points + 1 : k.points);
+                const tempPerf = parseFloat(((tempPoints / ((k.played + 1) * 3)) * 100).toFixed(1));
+                const simulatedRankList = sortKillers(currentRankListPrev.map(x => x.id === k.id ? { ...x, performance: tempPerf, hooks: x.hooks + h } : x));
+                const newInternalIndex = simulatedRankList.findIndex(x => x.id === k.id);
+
+                if (newInternalIndex < oldInternalIndex) cardK.classList.add('subir-interno-anim');
+                else if (newInternalIndex > oldInternalIndex) cardK.classList.add('bajar-interno-anim');
+                else cardK.classList.add('mismo-lugar-anim');
+
+                k.played++; k.hooks += h;
+                if (res === 'win') k.points += 3;
+                else if (res === 'draw') k.points += 1;
+                k.performance = parseFloat(((k.points / (k.played * 3)) * 100).toFixed(1));
+
+                k.lastRound = currentRound;
+                localStorage.setItem(DB_KEY, JSON.stringify(killers));
+
+                RANKS.forEach(r => {
+                    let col = killers.filter(x => x.rank === r).sort((a, b) => (b.performance - a.performance) || (b.hooks - a.hooks) || (a.priority - b.priority));
+                    col.forEach((killer, idx) => killer.priority = idx + 1);
+                });
+
+                localStorage.setItem(DB_KEY, JSON.stringify(killers));
+
+                closeModals();
+                setTimeout(() => {
+                    highlightedIds = [k.id];
+                    render();
+                    setTimeout(() => { highlightedIds = []; render(); }, 3000);
+                }, 1500);
+                return;
+            }
+
+            closeModals();
+            setTimeout(() => {
+                k.played++; k.hooks += h;
+                if (res === 'win') k.points += 3;
+                else if (res === 'draw') k.points += 1;
+                k.performance = parseFloat(((k.points / (k.played * 3)) * 100).toFixed(1));
+
+                RANKS.forEach(r => {
+                    let col = killers.filter(x => x.rank === r).sort((a, b) => (b.performance - a.performance) || (b.hooks - a.hooks) || (a.priority - b.priority));
+                    col.forEach((killer, idx) => killer.priority = idx + 1);
+                });
+
+                highlightedIds = [k.id];
+                render();
+                setTimeout(() => { highlightedIds = []; render(); }, 3000);
+            }, 1500);
+        }
+
+        function render() {
+            const canvas = document.getElementById('liga-canvas');
+            canvas.innerHTML = '';
+
+            [...RANKS].reverse().forEach(rank => {
+                const col = document.createElement('div');
+                const rKey = rank.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                col.className = `rank-column col-${rKey}`;
+                const rK = sortKillers(killers.filter(x => x.rank === rank));
+
+                col.innerHTML = `
+            <div class="rank-header">
+                <img src="img/rank_${rKey === 'iridiscente' ? 'iri' : rKey}.webp" class="rank-icon-side">
+                <span class="rank-title">${rank}</span>
+            </div>
+            <div class="killers-list">
+                ${rK.map(k => {
+                    const isHi = highlightedIds.includes(k.id);
+                    const rColor = `var(--${rKey === 'iridiscente' ? 'iri' : rKey})`;
+
+                    const starHTML = k.wins > 0 ? `
+                        <div class="champion-star-container">
+                            <img src="img/copa.png" class="trophy-img">
+                            <span class="win-count">${k.wins}</span>
+                        </div>` : '';
+
+                    return `
+                    <div id="killer-${k.id}" class="killer-card ${isHi ? 'resaltar-latido' : ''}" onclick="openKillerAction(${k.id})" style="position:relative; ${isHi ? 'color:' + rColor + '; border-color:' + rColor + ';' : ''}">
+                        ${starHTML}
+                        <img src="${k.img}" class="killer-img">
+                        <div class="killer-info">
+                            <span class="killer-name">${k.name}</span>
+                            <div class="killer-stats">
+                                <span class="perf-value">${k.performance.toFixed(1)}%</span>
+                                <div class="stat-row">
+                                    <span class="stat-item">PJ ${k.played}</span>
+                                    <span class="stat-item">PTS ${k.points}</span>
+                                    <span class="stat-item"><img src="img/hook.webp" class="hook-icon"> ${k.hooks}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('')}
+            </div>`;
+                canvas.appendChild(col);
+            });
+            localStorage.setItem(DB_KEY, JSON.stringify(killers));
+        }
+
+        function startRoulette() {
+            const btn = document.getElementById('btn-roulette'); btn.disabled = true;
+            let candidates = killers.filter(k => k.lastRound !== currentRound);
+            if (candidates.length === 0) {
+                currentRound++;
+                localStorage.setItem('liga_currentRound_killers', currentRound.toString());
+                candidates = killers.filter(k => k.lastRound !== currentRound);
+            }
+            const winner = candidates[Math.floor(Math.random() * candidates.length)];
+            const candidateIds = candidates.map(c => c.id);
+            document.querySelectorAll('.killer-card').forEach(card => {
+                const id = parseInt(card.id.split('-')[1]);
+                if (!candidateIds.includes(id)) card.classList.add('no-candidato');
+            });
+            let ticks = 0; let speed = 50;
+            function tick() {
+                document.querySelectorAll('.killer-card').forEach(c => c.classList.remove('card-focus'));
+                const tickKillerId = candidateIds[Math.floor(Math.random() * candidateIds.length)];
+                const el = document.getElementById(`killer-${tickKillerId}`);
+                if (el) el.classList.add('card-focus');
+                ticks++;
+                if (ticks < 20) { speed += 20; setTimeout(tick, speed); }
+                else {
+                    document.querySelectorAll('.killer-card').forEach(c => c.classList.remove('card-focus'));
+                    const wEl = document.getElementById(`killer-${winner.id}`);
+                    if (wEl) { wEl.classList.add('card-focus', 'card-focus-final'); wEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+                    setTimeout(() => {
+                        document.querySelectorAll('.killer-card').forEach(c => c.classList.remove('no-candidato'));
+                        btn.disabled = false; openKillerAction(winner.id);
+                    }, 1500);
+                }
+            }
+            tick();
+        }
+
+        function openKillerAction(id) {
+            selectedKillerId = id; const k = killers.find(x => x.id === id);
+            document.getElementById('modal-img').src = k.img;
+            document.getElementById('modal-title').innerText = k.name;
+            document.getElementById('modal-rank-text').innerText = k.rank;
+            const key = k.rank.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            document.getElementById('modal-rank-icon-bg').src = `img/rank_${key === 'iridiscente' ? 'iri' : key}.webp`;
+            generateModalPerks(k);
+            document.getElementById('modal-overlay').style.display = 'block';
+            document.getElementById('action-modal').classList.add('visible');
+        }
+
+        function generateModalPerks(k) {
+            const container = document.getElementById('modal-perks-container');
+            container.innerHTML = "";
+            const allPerks = getAllKillerPerks();
+            let pool = [...new Set([...GENERIC_POOL, ...allPerks])];
+            let result = [];
+            
+            for (let i = 0; i < 4; i++) {
+                const options = [...pool, null];
+                const pick = options[Math.floor(Math.random() * options.length)];
+                result.push(pick);
+                if (pick !== null) {
+                    pool = pool.filter(p => p !== pick);
+                }
+            }
+
+            document.getElementById('modal-mission-title').innerText = "Build Aleatoria";
+            for (let i = 0; i < 4; i++) {
+                const pN = result[i];
+                container.innerHTML += `<div style="display:flex; flex-direction:column; align-items:center; width:140px;">
+                    <div class="perk-slot" id="slot-unit-${i}"><img src="img/empty.webp" class="perk-img-mod"></div>
+                    <div id="label-perk-${i}" class="perk-label-name" style="opacity:0;">${pN ? pN.replace(/_/g, " ") : ""}</div>
+                </div>`;
+                animateSlot(`slot-unit-${i}`, `label-perk-${i}`, result[i], i * 1000);
+            }
+        }
+
+        async function animateSlot(cId, lId, fP, d) {
+            setTimeout(() => {
+                const sU = document.getElementById(cId); if (!sU) return;
+                const img = sU.querySelector('.perk-img-mod');
+                const label = document.getElementById(lId);
+                const pool = [...GENERIC_POOL, ...getAllKillerPerks()];
+                img.classList.add('spinning-img');
+                const start = Date.now();
+                const interval = setInterval(() => {
+                    const temp = pool[Math.floor(Math.random() * pool.length)];
+                    img.src = `img/perks/${cleanForFilename(temp)}.webp`;
+                    if (Date.now() - start > 1500 + d) {
+                        clearInterval(interval);
+                        img.classList.remove('spinning-img');
+                        if (fP) {
+                            img.src = `img/perks/${cleanForFilename(fP)}.webp`;
+                        } else {
+                            sU.innerHTML = `<div style="transform:rotate(-45deg); color:rgba(255,255,255,0.15); font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:700;">?</div>`;
+                        }
+                        label.style.opacity = 1;
+                    }
+                }, 100);
+            }, 10);
+        }
+
+        function getAllKillerPerks() { let all = []; killers.forEach(k => { if (k.expert_perks) all.push(...k.expert_perks); }); return [...new Set(all)]; }
+        function exportar() { const io = document.getElementById('json-io'); io.style.display = 'block'; io.value = JSON.stringify(killers); io.select(); document.execCommand('copy'); }
+        function importar() { const io = document.getElementById('json-io'); io.style.display = 'block'; io.value = ""; document.getElementById('btn-load').style.display = 'block'; }
+        function confirmarImport() { try { killers = JSON.parse(document.getElementById('json-io').value); render(); document.getElementById('config-panel').style.display = 'none'; } catch (e) { } }
+
+        function updateChampionWinsDisplay() {
+            const select = document.getElementById('champion-select');
+            const winsInput = document.getElementById('champion-wins');
+            if (select.value) {
+                const k = killers.find(x => x.id === parseInt(select.value));
+                if (k) winsInput.value = k.wins || 0;
+            }
+        }
+
+        function saveChampionWins() {
+            const select = document.getElementById('champion-select');
+            const winsInput = document.getElementById('champion-wins');
+            if (select.value) {
+                const k = killers.find(x => x.id === parseInt(select.value));
+                if (k) {
+                    k.wins = parseInt(winsInput.value) || 0;
+                    localStorage.setItem(DB_KEY, JSON.stringify(killers));
+                    initChampionSelect();
+                    render();
+                }
+            }
+        }
+
+        function initChampionSelect() {
+            const select = document.getElementById('champion-select');
+            select.innerHTML = '<option value="">Seleccionar killer</option>';
+            const sorted = [...killers].sort((a, b) => a.name.localeCompare(b.name));
+            sorted.forEach(k => {
+                const option = document.createElement('option');
+                option.value = k.id;
+                option.textContent = k.name + (k.wins > 0 ? ` (${k.wins}🏆)` : '');
+                select.appendChild(option);
+            });
+        }
+
+        window.onload = function() { init(); initChampionSelect(); };
+    </script>
+</body>
+
+</html>
