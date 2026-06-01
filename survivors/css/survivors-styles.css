@@ -286,35 +286,38 @@ header::before {
 }
 
 .survivors-list {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    flex: 1;
-    overflow-y: auto;
-    scrollbar-width: none;
-}
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            flex: 1;
+            justify-content: flex-start;
+            overflow-y: hidden;
+            scrollbar-width: none;
+        }
 
 .survivors-list::-webkit-scrollbar {
     display: none;
 }
 
 .survivor-card {
-    border-radius: 10px;
-    padding: 6px 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: linear-gradient(135deg, rgba(20, 20, 30, 0.95) 0%, rgba(15, 15, 25, 0.9) 100%);
-    border: 1px solid var(--border-subtle);
-    cursor: pointer;
-    min-height: 65px;
-    flex-shrink: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-}
+            border-radius: 10px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95) 0%, rgba(15, 15, 25, 0.9) 100%);
+            border: 1px solid var(--border-subtle);
+            cursor: pointer;
+            height: 74px;
+            min-height: 74px;
+            flex-shrink: 0;
+            flex-grow: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
 
 .survivor-card:hover {
     transform: translateX(5px);
