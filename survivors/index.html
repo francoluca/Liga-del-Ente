@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Franluca - Liga del Ente: Supervivientes v1.0</title>
+    <link rel="stylesheet" href="css/survivors-styles.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-left">
+            <img src="img/logo_canal.webp" alt="Logo" class="channel-logo">
+            <h2 class="channel-name">FRANLUCA</h2>
+            <div class="capture-area-camera" title="Área de Cámara"></div>
+        </div>
+        <div class="liga-logo-container">
+            <img src="img/logo_liga_ente.png" alt="Logo" class="liga-main-logo">
+        </div>
+        <div class="header-right">
+            <div class="capture-area-game" title="Área de Juego"></div>
+            <button class="btn-roulette" id="btn-roulette" onclick="startRoulette()">🎲 Elegir Superviviente</button>
+            <button class="btn-config"
+                style="width:55px; height:55px; background: linear-gradient(135deg, #2a2a3e 0%, #1a1a2e 100%); border:2px solid rgba(255,255,255,0.15); border-radius:12px; color:white; cursor:pointer; margin-left:18px; font-size: 1.4rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);"
+                onclick="toggleConfig()">⚙️</button>
+        </div>
+        <div id="config-panel">
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:15px;">
+                <span style="color:var(--oro); font-weight:bold; font-size:0.9rem; text-transform:uppercase;">🏆 Campeón</span>
+                <select id="champion-select" onchange="updateChampionWinsDisplay()" style="padding:8px; border-radius:6px; background:#1a1a2e; color:white; border:1px solid rgba(255,255,255,0.2);">
+                </select>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="number" id="champion-wins" min="0" value="0" style="width:60px; padding:8px; border-radius:6px; background:#1a1a2e; color:white; border:1px solid rgba(255,255,255,0.2); text-align:center;">
+                    <button class="config-btn" onclick="saveChampionWins()" style="flex:1; padding:8px; font-size:0.8rem;">Guardar</button>
+                </div>
+            </div>
+            <button class="config-btn" onclick="exportSurvivors()">📤 Exportar JSON</button>
+            <button class="config-btn" onclick="showImportDialog()">📥 Importar JSON</button>
+            <textarea id="json-io"
+                style="display:none; height:120px; font-size:0.9rem; color:white; background:#1a1a2e; padding: 12px; border:2px solid rgba(255,255,255,0.1); border-radius:8px;"></textarea>
+            <button id="btn-load" class="config-btn" style="background:#166534; border:none; display:none;"
+                onclick="confirmImport()">✓ Confirmar Carga</button>
+            <button class="config-btn config-btn-danger"
+                onclick="openResetModal()">⚠️ RESET TOTAL</button>
+        </div>
+    </header>
+
+    <main id="liga-canvas"></main>
+
+    <div id="modal-overlay" onclick="closeModals()"></div>
+
+    <div id="action-modal" class="modal-base" style="width:950px; gap:25px;">
+        <div
+            style="display: flex; align-items: center; gap: 30px; background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+            <img id="modal-img" src=""
+                style="width: 130px; height: 130px; border-radius: 16px; object-fit: cover; border: 4px solid rgba(255,255,255,0.2); box-shadow: 0 8px 30px rgba(0,0,0,0.4);">
+            <div style="flex:1; text-align: center;">
+                <div id="modal-title"
+                    style="font-size: 2.6rem; font-weight: 900; text-align:center; text-transform:uppercase; font-family: 'Orbitron', sans-serif; letter-spacing: 3px; text-shadow: 0 3px 10px rgba(0,0,0,0.5);">Name</div>
+                <div id="modal-rank-display"
+                    style="height: 55px; display: flex; align-items: center; justify-content: center; position: relative; font-weight: 700; text-transform: uppercase; letter-spacing: 4px; font-size: 1.6rem; margin-top: 8px;">
+                    <img id="modal-rank-icon-bg" src=""
+                        style="position: absolute; height: 100%; opacity: 0.6; z-index: -1;">
+                    <span id="modal-rank-text" style="text-shadow: 0 2px 8px rgba(0,0,0,0.8);"></span>
+                </div>
+            </div>
+        </div>
+        <div class="perk-mission-box"
+            style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%); border-radius: 16px; padding: 30px; border: 2px dashed rgba(255, 255, 255, 0.15);">
+            <span id="modal-mission-title"
+                style="font-size: 1.8rem; font-weight: 700; text-transform: uppercase; color: var(--oro); text-align: center; display: block; margin-bottom: 25px; font-family: 'Orbitron', sans-serif; letter-spacing: 3px; text-shadow: 0 0 20px rgba(255, 204, 0, 0.3);">MODO</span>
+            <div id="modal-perks-container" class="perks-display-flex"></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; background:linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%); border-radius:12px; padding: 0 20px; border:2px solid rgba(255,255,255,0.1); width:100%;">
+            <img src="img/gen.webp" style="width:32px; height:32px; vertical-align:middle;">
+            <input type="number" id="modal-generators" placeholder="Generadores completados (0-5)" style="flex:1; background:transparent; border:none; color:white; font-weight:700; font-size:1.4rem; font-family:'Rajdhani',sans-serif; text-align:center; padding:22px 0;">
+        </div>
+        <div style="display:flex; flex-direction: column; gap:12px">
+            <button class="btn-modal-action btn-win-fix" onclick="registrarResultado('win')">ESCAPAR (Ascenso)</button>
+            <button class="btn-modal-action btn-loss-fix" onclick="registrarResultado('loss')">MORIR (Descenso)</button>
+        </div>
+        <button class="btn-cancelar" onclick="closeModals()">✕ Cancelar</button>
+    </div>
+
+    <div id="confirm-reset-modal" class="modal-base" style="width:520px; text-align:center; gap:25px;">
+        <h2 style="color:#ef4444; text-transform:uppercase; font-family: 'Orbitron', sans-serif; letter-spacing: 3px; font-size: 1.8rem; text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);">⚠️ ADVERTENCIA</h2>
+        <p style="font-size: 1.4rem; margin:15px 0; color: #d1d5db;">¿Borrar todo el progreso de la liga?<br>Esta acción no se puede deshacer.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <button
+                style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: white; padding: 18px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; font-family: 'Orbitron', sans-serif; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);"
+                onclick="confirmReset()">SÍ, RESETEAR</button>
+            <button
+                style="background: linear-gradient(135deg, #4b5563 0%, #374151 100%); color: white; padding: 18px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; font-family: 'Orbitron', sans-serif;"
+                onclick="closeModals()">CANCELAR</button>
+        </div>
+    </div>
+
+    <script src="js/constants.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/roulette.js"></script>
+    <script src="js/results.js"></script>
+    <script src="js/modal.js"></script>
+    <script>
+        window.onload = function() { init(); initChampionSelect(); };
+    </script>
+</body>
+
+</html>
