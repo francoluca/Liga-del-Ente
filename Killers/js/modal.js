@@ -56,7 +56,8 @@ async function animateSlot(cId, lId, fP, d) {
                 if (fP) {
                     img.src = `img/perks/${cleanForFilename(fP)}.webp`;
                 } else {
-                    sU.innerHTML = `<div style="transform:rotate(-45deg); color:rgba(255,255,255,0.15); font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:700;">?</div>`;
+                    img.src = `img/perks/slot_vacio.webp`;
+                    label.textContent = 'Slot vacío';
                 }
                 label.style.opacity = 1;
             }

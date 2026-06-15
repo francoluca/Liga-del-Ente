@@ -30,7 +30,7 @@ function registrarResultado(res) {
 
     if (res === 'win' && rIndex < 4) {
         let rSup = RANKS[rIndex + 1];
-        let victims = killers.filter(x => x.rank === rSup).sort((a, b) => (b.performance - a.performance) || (a.hooks - b.hooks) || (b.priority - a.priority));
+        let victims = killers.filter(x => x.rank === rSup).sort((a, b) => (a.performance - b.performance) || (a.hooks - b.hooks) || (b.priority - a.priority));
         if (victims.length > 0) {
             victimId = victims[0].id;
             implicadosIds.push(victimId);
